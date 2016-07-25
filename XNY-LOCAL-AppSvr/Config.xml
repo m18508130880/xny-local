@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <config>
+    	<ThreadPoolSize>100</ThreadPoolSize>
+    </config>
+    <app_server>
+    	<server_prot>60110</server_prot>
+    	<server_timeout>60</server_timeout>
+    </app_server>
+    <app_client>
+    	<client_ip>bestruiye.jios.org</client_ip>
+    	<client_prot>31040</client_prot>
+    	<client_timeout>60</client_timeout>
+    	<client_id>0000000001</client_id>
+    	<client_pwd>111111</client_pwd>
+    	<client_sta>0</client_sta>
+    </app_client>
+    <db>
+    	<url>jdbc:mysql://localhost:3306/XNY</url>
+    	<id>root</id>
+    	<pwd>best8530</pwd>
+    	<flag>3001</flag>
+    </db>
+    <sqlser>
+    	<url>jdbc:sqlserver://localhost:1590;DatabaseName=AYJK</url>
+    	<id>ayjk</id>
+    	<pwd>ayjk</pwd>
+    	<flag>2001</flag>
+    	<status>0</status>
+    </sqlser>
+</root>
