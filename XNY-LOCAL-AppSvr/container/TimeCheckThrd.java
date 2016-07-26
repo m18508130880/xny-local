@@ -20,13 +20,12 @@ public class TimeCheckThrd extends Thread
 	}
 	public void run()
 	{
-		LinkedList<String> checkList = null;		 //接收数据列表,用于客户端数据交换
+		LinkedList<String> checkList = null;//接收数据列表,用于客户端数据交换
 		while(true)
 		{
 			try
 			{
 				checkList = ActionContainer.GetTimeOutList(m_TimeOut);
-				
 				while(!checkList.isEmpty())
 				{
 					System.out.println(checkList);

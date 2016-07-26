@@ -13,9 +13,9 @@ public abstract class BaseCmdBean
 	private String actionSource = "";   //动作源   Cpm_Id
 	private String Reserve = "";        //预留
 	private String Status = "0000";     //状态
-	private int Action = 0;	
+	private int Action = 0;	            //命令值   Cmd    
 	private int TestTime = (int)(new java.util.Date().getTime()/1000);       //  测试时间
-	private String Seq = "";
+	private String Seq = "";            //从线程启动时长值 ++
 	public DBUtil m_DbUtil = null;
 	
 	public BaseCmdBean(int action, String seq, DBUtil dbUtil)

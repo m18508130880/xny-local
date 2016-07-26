@@ -120,7 +120,7 @@ public class ActionContainer
 	}
 	
 	/**
-	 * 获取超时的 data 
+	 * 获取 登陆客户端  列表 超时的  BaseCmdBean对象
 	 * @param mTimeOut
 	 * @return LinkedList<String>
 	 */

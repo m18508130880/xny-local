@@ -9,12 +9,13 @@ import util.*;
 
 public class Main extends Thread 
 {
-	private static Main objMain = null;
-	private TcpSvrAppGateWay m_PlatSvr = null;
-	private DBUtil m_DBUtil = null;
+	private static Main      objMain    = null;
+	private TcpSvrAppGateWay m_PlatSvr  = null;
+	private DBUtil           m_DBUtil   = null;
+	
 	public static void main(String[] args) 
 	{
-		objMain = new Main();
+		objMain = new Main();  
 		objMain.init();
 	}
 
@@ -26,7 +27,7 @@ public class Main extends Thread
 			//指令回复容器
 			if(!ActionContainer.Initialize())
 			{
-				//System.exit(-1)是指所有程序（方法，类等）停止，系统停止运行。
+				//System.exit(-1)  非0值表示异常退出     是指所有程序（方法，类等）停止，系统停止运行。
 				System.exit(-1);
 			}			
 			//数据库组件
@@ -44,7 +45,7 @@ public class Main extends Thread
 			}
 			
 			this.start();
-			Runtime.getRuntime().addShutdownHook(new Thread(){
+			Runtime.getRuntime().addShutdownHook(new Thread(){  //注册新的虚拟机来关闭钩子。
 				public void run() {
 					System.gc();
 				}
@@ -62,8 +63,8 @@ public class Main extends Thread
 		System.out.println("Start..........................................");
 		String inputCmd = null;
 		boolean test = true;
-		while (!interrupted()) 
-		{
+		while (!interrupted()) //interrupted()如果当前线程已经中断，则返回 true；否则返回 false  ：当线程没有中断时执行循环
+		{     //第一次执行 interrupted()，线程没有中断，返回true，接着将状态置为false 于是第二次执行会返回false
 			try 
 			{
 				sleep(1000);	
