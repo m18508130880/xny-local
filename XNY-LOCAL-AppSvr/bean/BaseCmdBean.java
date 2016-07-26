@@ -10,7 +10,7 @@ import util.*;
 public abstract class BaseCmdBean
 {
 	public static long m_SessionId = (new java.util.Date().getTime()/1000);
-	private String actionSource = "";
+	private String actionSource = "";   //Cpm_Id
 	private String Reserve = "";
 	private String Status = "0000";
 	private int Action = 0;	
@@ -47,15 +47,18 @@ public abstract class BaseCmdBean
 		}
 		return retBean;
 	}
+	
 	public static synchronized String SessionId()
 	{
 		long ret = m_SessionId++;
 		return CommUtil.LongToStringLeftFillZero(ret, 20);
 	}
+	
 	public String GetSessionId()
 	{
 		return Seq;
 	}
+	
 	public abstract void parseReqest(String key, String strRequest, byte[] strData);
 	public abstract int execRequest();
 

@@ -36,7 +36,9 @@ public class Cmd_Sta
 	public static final String DATA_1011_23                 = "0321040001";
 	public static final String DATA_1011_24                 = "0321050001";
 	public static final String DATA_1011_25                 = "0321060001";
-	
+	public static final String DATA_1011_27                 = "0431080001";   //济南章丘 瑞烨法兰  流量计
+	public static final String DATA_1011_28                 = "0431090001";   //济南章丘 伊莱特     流量计
+		
 //	==================系统状态=====================================================
 	public static final int STA_SUCCESS						= 0000;	//成功
 	public static final int STA_ERROR						= 3006;	//失败
