@@ -5,7 +5,8 @@ import util.CmdUtil;
 import util.Cmd_Sta;
 import util.CommUtil;
 import util.DBUtil;
-public class AppDeviceAlarmReqBean extends BaseCmdBean {	
+public class AppDeviceAlarmReqBean extends BaseCmdBean 
+{	
 	
 	private String Dev_S_Id = "";
 	private String Dev_S_Name = "";
@@ -20,12 +21,15 @@ public class AppDeviceAlarmReqBean extends BaseCmdBean {
 	private String Dev_CTime = "";
 	private String Dev_Operator = "";
 	private String Dev_Status = "";
-	public AppDeviceAlarmReqBean(int action, String seq, DBUtil dbUtil) {
+	
+	public AppDeviceAlarmReqBean(int action, String seq, DBUtil dbUtil) 
+	{
 		super(action, seq, dbUtil);
 	}
 
 	@Override
-	public void parseReqest(String srcKey, String strRequest, byte[] strData) {
+	public void parseReqest(String srcKey, String strRequest, byte[] strData) 
+	{
 		// TODO Auto-generated method stub
 		this.setActionSource(srcKey);
 		this.setReserve(strRequest.substring(0, 20));

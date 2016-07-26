@@ -4,24 +4,30 @@ import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
+
 import util.*;
 import bean.*;
 
 public class ActionContainer
 {
 	public static Hashtable<String, BaseCmdBean> objActionTable = null;//登陆客户端列表
-	private static Byte markActionTable = new Byte((byte)1);	
+	private static Byte markActionTable = new Byte((byte)1);	       //锁 
 	
 	private static TimeCheckThrd checkThrd = null;
 
 	InetAddress addr = InetAddress.getLocalHost();
-	public String m_LocalIp = addr.getHostAddress().toString();//获得本机IP
+	public String m_LocalIp = addr.getHostAddress().toString();        //获得本机IP
 	
 	public ActionContainer()throws Exception
 	{	  
 		
 	}
 	
+	/**
+	 * 初始化 objActionTable 、checkThrd
+	 * 并启动线程 checkThrd
+	 * @return
+	 */
 	public static boolean Initialize()
 	{
 		System.out.println("进入线程......");
@@ -31,7 +37,7 @@ public class ActionContainer
 			objActionTable = new Hashtable<String, BaseCmdBean>(); 
 			checkThrd = new TimeCheckThrd(30);
 			checkThrd.start();
-			ret = true;
+			ret = true;  //如果出现异常 ,执行不到这一步
 		}
 		catch(Exception e)
 		{
@@ -40,8 +46,10 @@ public class ActionContainer
 		return ret;
 	}
 	
-	/*
-	 * 获取
+	/**
+	 * 从HashTable中 根据传入的 pKey值 返回特定的 BaseCmdBean
+	 * @param pKey
+	 * @return BaseCmdBean
 	 */
 	public static BaseCmdBean GetAction(String pKey)
 	{
@@ -64,8 +72,10 @@ public class ActionContainer
 		return bean;
 	}
 	
-	/*
-	 * 增加
+	/**
+	 * 向objActionTable 插入一个 键值对 (pKey,baseCmdBean)
+	 * @param pKey
+	 * @param bean
 	 */
 	public static void InsertAction(String pKey, BaseCmdBean bean)
 	{
@@ -86,8 +96,10 @@ public class ActionContainer
 			exp.printStackTrace();	
 		}
 	}
-	/*
-	 * 删除
+
+	/**
+	 * 从objActionTable 删除 一个 键值对 (pKey,baseCmdBean)
+	 * @param pKey
 	 */
 	public static void RemoveAction(String pKey)
 	{
@@ -98,7 +110,6 @@ public class ActionContainer
 				if(!objActionTable.isEmpty() && objActionTable.containsKey(pKey))
 				{
 						objActionTable.remove(pKey);		//在哈希表里移除客户端
-					
 				}
 			}
 		}
@@ -107,10 +118,15 @@ public class ActionContainer
 			exp.printStackTrace();	
 		}
 	}
+	
+	/**
+	 * 获取超时的 data 
+	 * @param mTimeOut
+	 * @return LinkedList<String>
+	 */
 	public static LinkedList<String> GetTimeOutList(int mTimeOut)
 	{
 		LinkedList<String> checkList = new LinkedList<String>();		 //接收数据列表,用于客户端数据交换
-	
 		try
 		{
 			synchronized(markActionTable)
@@ -119,9 +135,8 @@ public class ActionContainer
 				while(en.hasMoreElements())
 				{    
 					BaseCmdBean client = en.nextElement();
-				
 					int TestTime = (int)(new java.util.Date().getTime()/1000);
-					if(TestTime > client.getTestTime() + mTimeOut)
+					if(TestTime > client.getTestTime() + mTimeOut)      //比较时间是什么意思??? 超时的:
 					{
 						checkList.addLast(CommUtil.StrBRightFillSpace(client.getSeq(), 20));
 					}

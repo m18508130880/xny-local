@@ -5,8 +5,12 @@ import java.util.LinkedList;
 import util.CommUtil;
 import bean.BaseCmdBean;
 
-
-/************************************发送线程*****************************************/
+/**
+ * 时间校验 
+ * 发送线程
+ * @author cui
+ *
+ */
 public class TimeCheckThrd extends Thread
 {
 	private int m_TimeOut = 60;
@@ -37,7 +41,7 @@ public class TimeCheckThrd extends Thread
 						bean.noticeTimeOut();
 					CommUtil.LOG(data + " 回应超时 222");
 				}
-				sleep(1000*10);
+				sleep(1000*10);  //睡眠10 s
 			}catch(Exception e)
 			{}
 		}				

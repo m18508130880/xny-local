@@ -435,6 +435,7 @@ public class AppCnoocDataReqBean extends BaseCmdBean
 	{
 		
 	}
+	
 	@SuppressWarnings("unused")
 	private String EncodeSendMsg()
 	{

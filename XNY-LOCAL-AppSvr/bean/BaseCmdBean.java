@@ -9,16 +9,17 @@ import util.*;
 
 public abstract class BaseCmdBean
 {
-	public static long m_SessionId = (new java.util.Date().getTime()/1000);
-	private String actionSource = "";   //Cpm_Id
-	private String Reserve = "";
-	private String Status = "0000";
+	public static long m_SessionId = (new java.util.Date().getTime()/1000);  //  此刻时长
+	private String actionSource = "";   //动作源   Cpm_Id
+	private String Reserve = "";        //预留
+	private String Status = "0000";     //状态
 	private int Action = 0;	
-	private int TestTime = (int)(new java.util.Date().getTime()/1000);
+	private int TestTime = (int)(new java.util.Date().getTime()/1000);       //  测试时间
 	private String Seq = "";
 	public DBUtil m_DbUtil = null;
 	
-	public BaseCmdBean(int action, String seq, DBUtil dbUtil){
+	public BaseCmdBean(int action, String seq, DBUtil dbUtil)
+	{
 		Action = action;
 		Seq = seq;
 		m_DbUtil = dbUtil;
@@ -29,19 +30,19 @@ public abstract class BaseCmdBean
 		BaseCmdBean retBean = null;
 		switch(Cmd)
 		{
-			case Cmd_Sta.CMD_SUBMIT_1000:
+			case Cmd_Sta.CMD_SUBMIT_1000:  //1000
 				retBean = new AppDeviceStatusReqBean(Cmd, SessionId(), dbUtil);
 				break;
-			case Cmd_Sta.CMD_SUBMIT_1001:
+			case Cmd_Sta.CMD_SUBMIT_1001:  //1001
 				retBean = new AppDeviceDataReqBean(Cmd, SessionId(), dbUtil);
 				break;
-			case Cmd_Sta.CMD_SUBMIT_1003:
+			case Cmd_Sta.CMD_SUBMIT_1003:  //1003
 				retBean = new AppDeviceAlarmReqBean(Cmd, SessionId(), dbUtil);
 				break;
-			case Cmd_Sta.CMD_SUBMIT_1004:
+			case Cmd_Sta.CMD_SUBMIT_1004:  //1004
 				retBean = new AppDeviceAlertReqBean(Cmd, SessionId(), dbUtil);
 				break;
-			case Cmd_Sta.CMD_SUBMIT_1011:
+			case Cmd_Sta.CMD_SUBMIT_1011:  //1011  集合数据解析
 				retBean = new AppCnoocDataReqBean(Cmd, SessionId(), dbUtil);
 				break;
 		}
@@ -66,6 +67,7 @@ public abstract class BaseCmdBean
 	public abstract void execResponse();
 	
 	public abstract void noticeTimeOut();
+	
 	public String getActionSource() {
 		return actionSource;
 	}

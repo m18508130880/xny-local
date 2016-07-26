@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.*;
 import java.util.LinkedList;
 import java.util.Vector;
+
 import util.*;
 
 public abstract class TcpSvrBase extends Thread
@@ -21,7 +22,7 @@ public abstract class TcpSvrBase extends Thread
 	
 	//接收数据列表,用于客户端数据交换
 	public LinkedList<Object> recvMsgList = null;
-	public Byte markRecv = new Byte((byte)1);
+	public Byte markRecv = new Byte((byte)1);      //线程同步锁
 	
 	private int m_Seq = 0;
 	private int m_iPort = 0;
@@ -32,7 +33,12 @@ public abstract class TcpSvrBase extends Thread
 	{
 	}
 	
-	//初始化Socket
+	/**
+	 * 初始化Socket
+	 * @param iPort
+	 * @param iTimeOut
+	 * @return boolean
+	 */
 	public boolean init(int iPort, int iTimeOut)
 	{
 		try
@@ -55,20 +61,29 @@ public abstract class TcpSvrBase extends Thread
 		}		
 	}	
 	
-	//监听Socket连接
+	/*
+	 * 监听Socket连接 TcpSvrBase本身是一个线程 (non-Javadoc)
+	 * 
+	 * @see java.lang.Thread#run()
+	 */
 	public void run()
 	{	
 		while (true)
 		{  
 			try
 			{
-				Socket objClient = objTcpSvrSock.accept();
-				objClient.setSoTimeout(m_iTimeOut*1000);
+				Socket objClient = objTcpSvrSock.accept(); // 接收一个 相对客户端 socket 进行对接
+				objClient.setSoTimeout(m_iTimeOut*1000);   // 通过指定超时值启用/禁用
+				                                           // SO_TIMEOUT，以毫秒为单位。
 				
 				DataInputStream RecvChannel = new DataInputStream(objClient.getInputStream());
-				byte[] Buffer = new byte[1024];
+				byte[] Buffer = new byte[1024];            // 创建缓冲区数组Buffer
 				
-				int RecvLen = RecvChannel.read(Buffer);
+				int RecvLen = RecvChannel.read(Buffer);    // 返回读取到的缓冲区Buffer 字节长度
+				
+				CommUtil.PRINT("Send Original:");          // 打印 Send Original 标记
+				CommUtil.printMsg(Buffer, RecvLen);        // 打印 24 23 2a 72 65 67 2c  注册包
+				
 				if(20 > RecvLen)
 				{
 					objClient.close();
@@ -96,6 +111,7 @@ public abstract class TcpSvrBase extends Thread
 			}
 		}//while
 	}
+	
 	//登入验证
 	protected abstract String CheckClient(byte[] buf, Socket objClient);
 	
@@ -103,7 +119,11 @@ public abstract class TcpSvrBase extends Thread
 	protected abstract void ClientStatusNotify(String strClientKey, int Status);
 	protected abstract void ClientClose(String pClientKey);
 	
-	//取得接收线程数据列表
+	
+	/**
+	 * 取得接收线程数据列表
+	 * @return byte[] data
+	 */ 
 	public byte[] GetRecvMsgList()
 	{
 		byte[] data = null;
@@ -117,8 +137,11 @@ public abstract class TcpSvrBase extends Thread
 		return data;
 	}
 	
-	//设置接收线程列表
-	public void SetRecvMsgList(Object  object)
+	/**
+	 * 设置接收线程列表
+	 * @param object
+	 */
+	public void SetRecvMsgList(Object object)
 	{
 		synchronized(markRecv)
 		{
@@ -126,7 +149,10 @@ public abstract class TcpSvrBase extends Thread
 		}
 	}	
 
-	//生成序列号
+	/**
+	 * 生成序列号
+	 * @return int m_Seq
+	 */
 	public int GetSeq()
 	{
 		if(m_Seq++ == 0xffffff)
@@ -134,7 +160,10 @@ public abstract class TcpSvrBase extends Thread
 		return m_Seq;
 	}
 	
-	//返回接收列表大小
+	/**
+	 * 返回接收列表大小
+	 * @return long recvMsgList.size()
+	 */
 	public long GetRecvMsgListLength()
 	{
 		return recvMsgList.size();
@@ -142,26 +171,36 @@ public abstract class TcpSvrBase extends Thread
 	
 	protected abstract byte[] GetActiveTestBuf();
 	protected abstract byte[] EnCode(int msgCode, String pData);
-	/************************************ClientSocket*****************************************/	
-	//和每个客户端想对应的服务端，同等于客户端
+	
+	
+	/*****************************************************************************/	
+	/**
+	 * ClientSocket和每个客户端相对应的服务端，同等于客户端
+	 * @author cui
+	 */
 	public class ClientSocket extends Thread
 	{	
-		public Socket objSocket = null;	
+		public  Socket   objSocket   = null;	
 		private RecvThrd objRecvThrd = null;
 		private SendThrd objSendThrd = null;
 		
 		private LinkedList<Object> sendMsgList = null;
-		private byte[] markSend = new byte[1];
-		public String m_ClientKey = "";
+		private byte[] markSend = new byte[1]; //同步锁
+		public  String m_ClientKey = "";       //客户端 ID 数
 		private int m_TestSta = 0;
-
-		//初始化SOCKET
+		
+		/**
+		 * 初始化SOCKET 
+		 * @param objClient
+		 * @param pClientKey
+		 * @return boolean 
+		 */
 		public boolean init(Socket objClient, String pClientKey)
 		{		
 			try
 			{
-				m_ClientKey = pClientKey;
-				objSocket = objClient;
+				m_ClientKey = pClientKey; // 客户端 ID 数
+				objSocket   = objClient;
 				objSocket.setSoTimeout(0);
 							
 				sendMsgList = new LinkedList<Object>();	
@@ -184,8 +223,8 @@ public abstract class TcpSvrBase extends Thread
 		
 		public void run()
 		{
-			int testTime= (int)(new java.util.Date().getTime()/1000);
-			int nowTime = testTime;
+			int testTime = (int) (new java.util.Date().getTime() / 1000);    // 测试时间
+			int nowTime = testTime;                                          // 当前时间
 			int dTime = 0;
 			
 			//Active Test
@@ -200,7 +239,7 @@ public abstract class TcpSvrBase extends Thread
 						ClientClose(m_ClientKey);
 						break;
 					}
-					nowTime = (int)(new java.util.Date().getTime()/1000);  //getTime获得是毫秒数
+					nowTime = (int)(new java.util.Date().getTime()/1000);  // 此刻时间
 					dTime = nowTime - testTime;
 					if(dTime > m_iTimeOut)
 					{
@@ -260,7 +299,11 @@ public abstract class TcpSvrBase extends Thread
 			return data;
 		}	
 	
-		/************************************接收线程*****************************************/
+		/*****************************************************************************/
+		/**
+		 * 接收线程
+		 * @author cui
+		 */
 		private class RecvThrd extends Thread
 		{
 			private DataInputStream RecvChannel = null;
@@ -447,7 +490,11 @@ public abstract class TcpSvrBase extends Thread
 			}
 		}
 		
-		/************************************发送线程*****************************************/
+		/*****************************************************************************/
+		/**
+		 * 发送线程
+		 * @author cui
+		 */
 		private class SendThrd extends Thread
 		{
 			private DataOutputStream SendChannel = null;
