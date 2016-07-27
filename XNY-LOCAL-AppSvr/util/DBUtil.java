@@ -17,6 +17,10 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 
+/**
+ * 数据库初始化(根据status 决定启用mysql或者SqlSvr) 
+ * @author cui
+ */
 public class DBUtil
 {
 	private ConnPool objConnPool = null;
@@ -36,8 +40,13 @@ public class DBUtil
 	
 	public DBUtil() throws RemoteException
 	{
+		
 	}
 
+	/**
+	 * 数据库初始化
+	 * @return
+	 */
 	public boolean init()
 	{
 		boolean ret = false;
@@ -210,7 +219,7 @@ public class DBUtil
 	}
 	 public LinkedList<Object> getStationInfo(String sql)
 	  {
-	    LinkedList sendMsgList = new LinkedList();
+	    LinkedList<Object> sendMsgList = new LinkedList<Object>();
 	    Connection conn = null;
 	    PreparedStatement pStmt = null;
 	    ResultSet rs = null;

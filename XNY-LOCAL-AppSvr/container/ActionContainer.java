@@ -34,7 +34,7 @@ public class ActionContainer
 		boolean ret = false;
 		try
 		{
-			objActionTable = new Hashtable<String, BaseCmdBean>(); 
+			objActionTable = new Hashtable<String, BaseCmdBean>(); //初始化 Hashtable 客户端列表 (此时为空)
 			checkThrd = new TimeCheckThrd(30);
 			checkThrd.start();
 			ret = true;  //如果出现异常 ,执行不到这一步

@@ -18,9 +18,15 @@ public class TimeCheckThrd extends Thread
 	{
 		m_TimeOut = timeout;
 	}
+	
+	/* 
+	 * TimeCheckThrd run 函数执行后 打印 [data 是否超时]
+	 * (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	public void run()
 	{
-		LinkedList<String> checkList = null;//接收数据列表,用于客户端数据交换
+		LinkedList<String> checkList = null; //接收数据列表,用于客户端数据交换
 		while(true)
 		{
 			try
