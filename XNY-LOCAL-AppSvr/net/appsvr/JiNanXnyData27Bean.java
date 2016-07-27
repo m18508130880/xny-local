@@ -1,6 +1,6 @@
 package net.appsvr;
 
-public class JiNanXNYData27Bean
+public class JiNanXnyData27Bean
 {
 	String CTime     = "";
 	String Order_Id  = "";

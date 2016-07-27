@@ -1,6 +1,6 @@
 package net.appsvr;
 
-public class JiNanXNYData26Bean
+public class JiNanXnyData26Bean
 {
 	String CTime         = "";  //
 	String Temperature   = "";  //流量计温度

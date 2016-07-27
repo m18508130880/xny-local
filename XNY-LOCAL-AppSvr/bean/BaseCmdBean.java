@@ -25,6 +25,12 @@ public abstract class BaseCmdBean
 		m_DbUtil = dbUtil;
 	}
 	
+	/**
+	 * 根据传入的 Cmd 值 得到相应业务的 BaseCmdBean业务bean
+	 * @param Cmd
+	 * @param dbUtil
+	 * @return BaseCmdBean bean 
+	 */
 	public static BaseCmdBean getBean(int Cmd, DBUtil dbUtil)
 	{
 		BaseCmdBean retBean = null;

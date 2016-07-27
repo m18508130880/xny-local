@@ -409,7 +409,7 @@ public abstract class TcpSvrBase extends Thread
 			private byte DeCode(byte[] pMsg, Vector<Object> vectData)
 			{
 				byte RetVal = CmdUtil.CODEC_ERR;
-				int nUsed = ((Integer)vectData.get(0)).intValue();//现有的数据长度
+				int nUsed = ((Integer)vectData.get(0)).intValue();  //现有的数据长度
 				int nCursor = ((Integer)vectData.get(1)).intValue();//从什么地方开始
 				try
 				{
@@ -420,10 +420,10 @@ public abstract class TcpSvrBase extends Thread
 					}
 					DinStream.skip(nCursor); 
 
-					int unMsgLen = CommUtil.converseInt(DinStream.readInt());
+					int unMsgLen  = CommUtil.converseInt(DinStream.readInt());
 					int unMsgCode = CommUtil.converseInt(DinStream.readInt());
-					int unStatus = CommUtil.converseInt(DinStream.readInt());
-					int unMsgSeq = CommUtil.converseInt(DinStream.readInt());
+					int unStatus  = CommUtil.converseInt(DinStream.readInt());
+					int unMsgSeq  = CommUtil.converseInt(DinStream.readInt());
 					int unReserve = CommUtil.converseInt(DinStream.readInt());
 					//System.out.println("DeCode:" + new String(pMsg));
 					if(unMsgLen < CmdUtil.MSGHDRLEN || unMsgLen > CmdUtil.RECV_BUFFER_SIZE)

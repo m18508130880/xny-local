@@ -31,7 +31,7 @@ public class TcpSvrAppGateWay extends TcpSvrBase
 	
 	//登陆客户端列表
 	private static Hashtable<String, ClientSocket> objClientTable = null;
-	private static Byte markClientTable = new Byte((byte)1);
+	private static Byte markClientTable = new Byte((byte)1);      //同步锁
 	
 	//读取配置文件内容
 	public TcpSvrAppGateWay(DBUtil dbUtil)throws Exception
@@ -285,29 +285,31 @@ public class TcpSvrAppGateWay extends TcpSvrBase
 			{
 				try
 				{
-					byte[] data = (byte[])GetRecvMsgList();
-					if(null ==  data || data.length < Cmd_Sta.CONST_MSGHDRLEN)
+					byte[] data = (byte[])GetRecvMsgList();                    //取得接收线程数据列表
+					if(null ==  data || data.length < Cmd_Sta.CONST_MSGHDRLEN) //Cmd_Sta.CONST_MSGHDRLEN: 包头长度
 					{
-						sleep(10);
+						sleep(10); //ms
 						continue;
 					}
-					String strClientKey = new String(data, 0, 20);
+					String strClientKey = new String(data, 0, 20);   // 客户端key Cpm_Id [0100000001          ]
 					DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(data));
-					DinStream.skip(20);
-					MsgHeadBean msgHead = new MsgHeadBean();
-					msgHead.setUnMsgLen(CommUtil.converseInt(DinStream.readInt()));
-					msgHead.setUnMsgCode(CommUtil.converseInt(DinStream.readInt()));
-					msgHead.setUnStatus(CommUtil.converseInt(DinStream.readInt()));
-					msgHead.setUnMsgSeq(CommUtil.converseInt(DinStream.readInt()));
-					msgHead.setUnReserve(CommUtil.converseInt(DinStream.readInt()));
+					DinStream.skip(20);   
+					MsgHeadBean msgHead = new MsgHeadBean(); //包头
+					msgHead.setUnMsgLen(CommUtil.converseInt(DinStream.readInt())); //通信包长度
+					msgHead.setUnMsgCode(CommUtil.converseInt(DinStream.readInt()));//业务类型
+					msgHead.setUnStatus(CommUtil.converseInt(DinStream.readInt())); //状态
+					msgHead.setUnMsgSeq(CommUtil.converseInt(DinStream.readInt())); //序列号
+					msgHead.setUnReserve(CommUtil.converseInt(DinStream.readInt()));//保留字段
 					DinStream.close();
 					
+					// dealData:[                  95000010010431080001瑞烨流量计                    0026集合数据            2016-07-26 15:01:03 41EE64D2437B45B6409800000000400044220205420CEAC7                                                                                          ]
 					dealData = new String(data, 40, data.length - 40);
-					String dealReserve = dealData.substring(0,  20);
-					String dealCmd = dealData.substring(24, 28);
+					
+					String dealReserve = dealData.substring(0, 20);        //保留字
+					String dealCmd = dealData.substring(24, 28);           //处理指令(1000???)
 					switch(msgHead.getUnMsgCode())
 					{
-						case Cmd_Sta.COMM_SUBMMIT://提交
+						case Cmd_Sta.COMM_SUBMMIT://客户端提交
 						{
 							CommUtil.LOG("PlatForm Submit [" + strClientKey + "] " + "[" + dealData + "]");
 							BaseCmdBean cmdBean = BaseCmdBean.getBean(Integer.parseInt(dealCmd), m_DbUtil);	
