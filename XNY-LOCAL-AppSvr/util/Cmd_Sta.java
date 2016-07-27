@@ -33,11 +33,11 @@ public class Cmd_Sta
 	public static final String DATA_1011_20                 = "0321020001";
 	public static final String DATA_1011_21                 = "0321010001";
 	public static final String DATA_1011_22                 = "0321030001";
-	public static final String DATA_1011_23                 = "0321040001";
-	public static final String DATA_1011_24                 = "0321050001";
-	public static final String DATA_1011_25                 = "0321060001";
-	public static final String DATA_1011_27                 = "0431080001";   //济南章丘 瑞烨法兰  流量计
-	public static final String DATA_1011_28                 = "0431090001";   //济南章丘 伊莱特     流量计
+	
+	
+	
+	public static final String DATA_1011_28                 = "0431080001";   //瑞烨法兰  流量计
+	public static final String DATA_1011_29                 = "0431090001";   //伊莱特     流量计
 		
 //	==================系统状态=====================================================
 	public static final int STA_SUCCESS						= 0000;	//成功

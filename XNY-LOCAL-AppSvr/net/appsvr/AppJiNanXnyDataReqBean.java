@@ -3,7 +3,7 @@ package net.appsvr;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.math.BigDecimal;
-import java.util.LinkedList;
+
 import bean.BaseCmdBean;
 import util.CmdUtil;
 import util.Cmd_Sta;
@@ -56,7 +56,7 @@ public class AppJiNanXnyDataReqBean extends BaseCmdBean
 		try
 		{	
 			/**************************济南章丘瑞烨法兰流量计**************************/
-			if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_27))
+			if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_28))
 			{
 				//数据解析   421DF247 42D40000 00000000 00000000  44210C29    42B27EE4
 				//          温度             压力      脉冲频率    标况流量      累计百位以上   累计百位以下
@@ -115,7 +115,7 @@ public class AppJiNanXnyDataReqBean extends BaseCmdBean
 				
 			}
 			/**************************济南章丘伊莱特流量计**************************/
-			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_28))
+			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_29))
 			{//数据解析   421DF247 42D40000 00000000 00000000  44210C29    42B27EE4
 				//          温度             压力      脉冲频率    标况流量      累计百位以上   累计百位以下
 				JiNanXnyData26Bean Data26Bean = new JiNanXnyData26Bean();				

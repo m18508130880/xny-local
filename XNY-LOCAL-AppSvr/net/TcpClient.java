@@ -25,8 +25,8 @@ public class TcpClient extends Thread
 	private String				m_IP		= null;     //IP地址
 	private int					m_Port		= 0;        //端口号
 	private int					m_TimeOut	= 0;        //超时时间
-	private int					m_TestSta	= 0;        //
-	private String				m_ID		= "";       //
+	private int					m_TestSta	= 0;        
+	private String				m_ID		= "";       
 	private String				m_PWD		= "";
 	private int					m_Seq		= 0;
 
@@ -91,6 +91,10 @@ public class TcpClient extends Thread
 		return RetVal;
 	}
 
+	/**
+	 * 重新连接
+	 * @return
+	 */
 	private boolean Reconnect()
 	{
 		boolean RetVal = false;
@@ -122,15 +126,19 @@ public class TcpClient extends Thread
 		return RetVal;
 	}
 
+	/**
+	 * 登录
+	 * @return
+	 */
 	private boolean Login()
 	{
 		boolean RetVal = false;
 		try
 		{
-			String strToday = (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date());
-			String strData = CommUtil.StrBRightFillSpace(m_ID, 20) + strToday + m_PWD;
+			String strToday   = (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date());
+			String strData    = CommUtil.StrBRightFillSpace(m_ID, 20) + strToday + m_PWD;
 			byte[] md5_output = new Md5().encrypt(strData.getBytes());
-			strData = "0000" + CommUtil.StrBRightFillSpace(m_ID, 20) + strToday + CommUtil.BytesToHexString(md5_output, 16).toUpperCase();
+			strData  = "0000" + CommUtil.StrBRightFillSpace(m_ID, 20) + strToday + CommUtil.BytesToHexString(md5_output, 16).toUpperCase();
 			ByteArrayOutputStream boutStream = new ByteArrayOutputStream();
 			DataOutputStream doutStream = new DataOutputStream(boutStream);
 			doutStream.writeInt(CommUtil.converseInt(70));
@@ -263,14 +271,23 @@ public class TcpClient extends Thread
 		}
 	}
 
-	// 生成序列号
+	
+	/**
+	 * 生成序列号
+	 * @return
+	 */
 	public int GetSeq()
 	{
 		if (m_Seq++ == 0xffffff) m_Seq = 0;
 		return m_Seq;
 	}
 
-	// 添加发送数据
+	/**
+	 * 添加发送数据
+	 * @param pData
+	 * @param pType
+	 * @return boolean
+	 */
 	public boolean SetSendMsg(String pData, int pType)
 	{
 		boolean ret = false;
@@ -281,6 +298,10 @@ public class TcpClient extends Thread
 		return ret;
 	}
 
+	/**
+	 * 获取  RecvMsgList : 一个 byte[]
+	 * @return
+	 */
 	public byte[] GetRecvMsgList()
 	{
 		byte[] data = null;
@@ -294,6 +315,11 @@ public class TcpClient extends Thread
 		return data;
 	}
 
+	/**
+	 * 数据对象 添加到 LinkedList 中
+	 * @param object
+	 * @return boolean
+	 */
 	public boolean SetSendMsgList(Object object)
 	{
 		synchronized (markSend)
@@ -303,6 +329,10 @@ public class TcpClient extends Thread
 		return true;
 	}
 
+	/**
+	 * 从 LinkedList 中获取数据对象
+	 * @return
+	 */
 	private byte[] getSendMsgList()
 	{
 		byte[] byteData = null;
@@ -316,6 +346,12 @@ public class TcpClient extends Thread
 		return byteData;
 	}
 
+	/**
+	 * 数据编码   返回一个已编码 的 byte[]
+	 * @param pData
+	 * @param pType
+	 * @return byte[]
+	 */
 	public byte[] EnCode(String pData, int pType)
 	{
 		byte[] byteData = null;
@@ -324,23 +360,23 @@ public class TcpClient extends Thread
 		DataOutputStream doutStream = new DataOutputStream(boutStream);
 		try
 		{
-			doutStream.writeInt(CommUtil.converseInt(msgLen));
+			doutStream.writeInt(CommUtil.converseInt(msgLen)); // msgLen    数据长度
 			switch (pType)
 			{
-				case 1:
-					doutStream.writeInt(CommUtil.converseInt(Cmd_Sta.COMM_SUBMMIT));
+				case 1: //业务类型---客户端提交                                    // Cmd       业务类型
+					doutStream.writeInt(CommUtil.converseInt(Cmd_Sta.COMM_SUBMMIT)); 
 					break;
-				case 2:
-					doutStream.writeInt(CommUtil.converseInt(Cmd_Sta.COMM_DELIVER));
+				case 2: //业务类型---服务器派发
+					doutStream.writeInt(CommUtil.converseInt(Cmd_Sta.COMM_DELIVER)); 
 					break;
 				default:
 					doutStream.writeInt(CommUtil.converseInt(Cmd_Sta.COMM_SUBMMIT));
 					break;
 			}
-			doutStream.writeInt(CommUtil.converseInt(0));// Sta
-			doutStream.writeInt(CommUtil.converseInt(GetSeq()));// seq
-			doutStream.writeInt(CommUtil.converseInt(0));// reserve
-			doutStream.write(pData.getBytes());
+			doutStream.writeInt(CommUtil.converseInt(0));       // Sta      状态
+			doutStream.writeInt(CommUtil.converseInt(GetSeq()));// seq      序列号
+			doutStream.writeInt(CommUtil.converseInt(0));       // reserve  保留字段
+			doutStream.write(pData.getBytes());                 // 
 			byteData = boutStream.toByteArray();
 			boutStream.close();
 			doutStream.close();
@@ -353,6 +389,11 @@ public class TcpClient extends Thread
 		return byteData;
 	}
 
+	/**
+	 * 接收线程 内部类  
+	 * @author cui
+	 *
+	 */
 	private class RecvThrd extends Thread
 	{
 		private DataInputStream	RecvChannel	= null;

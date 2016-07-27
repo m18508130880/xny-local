@@ -242,70 +242,70 @@ public class AppCnoocDataReqBean extends BaseCmdBean
 				
 				
 			}
-			/**************************上周销售数据**************************/
-			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_23))
-			{
-				//数据解析
-				CnoocData23Bean Data23Bean = new CnoocData23Bean();
-				byte[] _Value4 = new byte[4];
-				
-				DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(Dev_CData));
-				Data23Bean.setValue_All(CommUtil.converseInt(DinStream.readInt()));
-				Data23Bean.setAmt_All(CommUtil.converseInt(DinStream.readInt()));
-				Data23Bean.setCnt_All(CommUtil.converseInt(DinStream.readInt()));
-				DinStream.read(_Value4, 0, 4);
-				Data23Bean.setOil_CType(new String(_Value4));
-				DinStream.close();
-				
-				System.out.println("23Value_All:" + new BigDecimal(Data23Bean.getValue_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
-				System.out.println("23Amt_All:" + new BigDecimal(Data23Bean.getAmt_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
-				System.out.println("23Cnt_All:" + Data23Bean.getCnt_All());
-				System.out.println("23Oil_CType:" + Data23Bean.getOil_CType());
-				
-				
-			}
-			/**************************上月销售数据**************************/
-			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_24))
-			{
-				//数据解析
-				CnoocData24Bean Data24Bean = new CnoocData24Bean();
-				byte[] _Value4 = new byte[4];
-				
-				DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(Dev_CData));
-				Data24Bean.setValue_All(CommUtil.converseInt(DinStream.readInt()));
-				Data24Bean.setAmt_All(CommUtil.converseInt(DinStream.readInt()));
-				Data24Bean.setCnt_All(CommUtil.converseInt(DinStream.readInt()));
-				DinStream.read(_Value4, 0, 4);
-				Data24Bean.setOil_CType(new String(_Value4));
-				DinStream.close();
-				
-				System.out.println("24Value_All:" + new BigDecimal(Data24Bean.getValue_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
-				System.out.println("24Amt_All:" + new BigDecimal(Data24Bean.getAmt_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
-				System.out.println("24Cnt_All:" + Data24Bean.getCnt_All());
-				System.out.println("24Oil_CType:" + Data24Bean.getOil_CType());
-				
-			}
-			/**************************去年销售数据**************************/
-			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_25))
-			{
-				//数据解析
-				CnoocData25Bean Data25Bean = new CnoocData25Bean();
-				byte[] _Value4 = new byte[4];
-				
-				DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(Dev_CData));
-				Data25Bean.setValue_All(CommUtil.converseInt(DinStream.readInt()));
-				Data25Bean.setAmt_All(CommUtil.converseInt(DinStream.readInt()));
-				Data25Bean.setCnt_All(CommUtil.converseInt(DinStream.readInt()));
-				DinStream.read(_Value4, 0, 4);
-				Data25Bean.setOil_CType(new String(_Value4));
-				DinStream.close();
-				
-				System.out.println("25Value_All:" + new BigDecimal(Data25Bean.getValue_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
-				System.out.println("25Amt_All:" + new BigDecimal(Data25Bean.getAmt_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
-				System.out.println("25Cnt_All:" + Data25Bean.getCnt_All());
-				System.out.println("25Oil_CType:" + Data25Bean.getOil_CType());
-			
-			}
+//			/**************************上周销售数据**************************/
+//			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_23))
+//			{
+//				//数据解析
+//				CnoocData23Bean Data23Bean = new CnoocData23Bean();
+//				byte[] _Value4 = new byte[4];
+//				
+//				DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(Dev_CData));
+//				Data23Bean.setValue_All(CommUtil.converseInt(DinStream.readInt()));
+//				Data23Bean.setAmt_All(CommUtil.converseInt(DinStream.readInt()));
+//				Data23Bean.setCnt_All(CommUtil.converseInt(DinStream.readInt()));
+//				DinStream.read(_Value4, 0, 4);
+//				Data23Bean.setOil_CType(new String(_Value4));
+//				DinStream.close();
+//				
+//				System.out.println("23Value_All:" + new BigDecimal(Data23Bean.getValue_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
+//				System.out.println("23Amt_All:" + new BigDecimal(Data23Bean.getAmt_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
+//				System.out.println("23Cnt_All:" + Data23Bean.getCnt_All());
+//				System.out.println("23Oil_CType:" + Data23Bean.getOil_CType());
+//				
+//				
+//			}
+//			/**************************上月销售数据**************************/
+//			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_24))
+//			{
+//				//数据解析
+//				CnoocData24Bean Data24Bean = new CnoocData24Bean();
+//				byte[] _Value4 = new byte[4];
+//				
+//				DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(Dev_CData));
+//				Data24Bean.setValue_All(CommUtil.converseInt(DinStream.readInt()));
+//				Data24Bean.setAmt_All(CommUtil.converseInt(DinStream.readInt()));
+//				Data24Bean.setCnt_All(CommUtil.converseInt(DinStream.readInt()));
+//				DinStream.read(_Value4, 0, 4);
+//				Data24Bean.setOil_CType(new String(_Value4));
+//				DinStream.close();
+//				
+//				System.out.println("24Value_All:" + new BigDecimal(Data24Bean.getValue_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
+//				System.out.println("24Amt_All:" + new BigDecimal(Data24Bean.getAmt_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
+//				System.out.println("24Cnt_All:" + Data24Bean.getCnt_All());
+//				System.out.println("24Oil_CType:" + Data24Bean.getOil_CType());
+//				
+//			}
+//			/**************************去年销售数据**************************/
+//			else if((Dev_Id.substring(0,6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_25))
+//			{
+//				//数据解析
+//				CnoocData25Bean Data25Bean = new CnoocData25Bean();
+//				byte[] _Value4 = new byte[4];
+//				
+//				DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(Dev_CData));
+//				Data25Bean.setValue_All(CommUtil.converseInt(DinStream.readInt()));
+//				Data25Bean.setAmt_All(CommUtil.converseInt(DinStream.readInt()));
+//				Data25Bean.setCnt_All(CommUtil.converseInt(DinStream.readInt()));
+//				DinStream.read(_Value4, 0, 4);
+//				Data25Bean.setOil_CType(new String(_Value4));
+//				DinStream.close();
+//				
+//				System.out.println("25Value_All:" + new BigDecimal(Data25Bean.getValue_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
+//				System.out.println("25Amt_All:" + new BigDecimal(Data25Bean.getAmt_All()).divide(new BigDecimal(100),2,java.math.RoundingMode.HALF_UP));
+//				System.out.println("25Cnt_All:" + Data25Bean.getCnt_All());
+//				System.out.println("25Oil_CType:" + Data25Bean.getOil_CType());
+//			
+//			}
 			
 			//回复
 			setStatus(CommUtil.IntToStringLeftFillZero(ret, 4));

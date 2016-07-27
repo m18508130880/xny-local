@@ -294,31 +294,31 @@ public class TcpSvrAppGateWay extends TcpSvrBase
 					String strClientKey = new String(data, 0, 20);   // 客户端key Cpm_Id [0100000001          ]
 					DataInputStream DinStream = new DataInputStream(new ByteArrayInputStream(data));
 					DinStream.skip(20);   
-					MsgHeadBean msgHead = new MsgHeadBean(); //包头
+					MsgHeadBean msgHead = new MsgHeadBean();         //包头
 					msgHead.setUnMsgLen(CommUtil.converseInt(DinStream.readInt())); //通信包长度
 					msgHead.setUnMsgCode(CommUtil.converseInt(DinStream.readInt()));//业务类型
 					msgHead.setUnStatus(CommUtil.converseInt(DinStream.readInt())); //状态
 					msgHead.setUnMsgSeq(CommUtil.converseInt(DinStream.readInt())); //序列号
 					msgHead.setUnReserve(CommUtil.converseInt(DinStream.readInt()));//保留字段
 					DinStream.close();
-					
-					// dealData:[                  95000010010431080001瑞烨流量计                    0026集合数据            2016-07-26 15:01:03 41EE64D2437B45B6409800000000400044220205420CEAC7                                                                                          ]
+					// Data    (290字节) = [0100000001          ][包头                             ] + dealData 
+					// dealData(250字节) = [                  95000010010431080001瑞烨流量计                    0026集合数据            2016-07-26 15:01:03 41EE64D2437B45B6409800000000400044220205420CEAC7                                                                                          ]
 					dealData = new String(data, 40, data.length - 40);
 					
 					String dealReserve = dealData.substring(0, 20);        //保留字
-					String dealCmd = dealData.substring(24, 28);           //处理指令(1000???)
+					String dealCmd = dealData.substring(24, 28);           //处理指令(1001)
 					switch(msgHead.getUnMsgCode())
 					{
-						case Cmd_Sta.COMM_SUBMMIT://客户端提交
+						case Cmd_Sta.COMM_SUBMMIT: //客户端提交
 						{
 							CommUtil.LOG("PlatForm Submit [" + strClientKey + "] " + "[" + dealData + "]");
 							BaseCmdBean cmdBean = BaseCmdBean.getBean(Integer.parseInt(dealCmd), m_DbUtil);	
 							if(null != cmdBean)
-							{
+							{                    //  Cpm_Id       数据包        
 								cmdBean.parseReqest(strClientKey, dealData, data);
 								cmdBean.execRequest();
 								
-								if(1 == m_iStatus)
+								if(1 == m_iStatus)  //客户端上传?
 								{
 									//上传
 									m_TcpClient.SetSendMsg(strClientKey + dealData, 1);
