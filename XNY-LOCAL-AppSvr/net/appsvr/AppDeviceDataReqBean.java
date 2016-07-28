@@ -47,7 +47,6 @@ public class AppDeviceDataReqBean extends BaseCmdBean
 	{
 		// TODO Auto-generated method stub
 		int ret = Cmd_Sta.STA_ERROR;
-//		System.out.println((Dev_Id.substring(0, 6) + Dev_Attr_Id)+"[]"+(Cmd_Sta.DATA_1011_26));
 		try
 		{
 			/************************** 瑞烨法兰流量计 **************************/
@@ -55,20 +54,19 @@ public class AppDeviceDataReqBean extends BaseCmdBean
 			{
 				// 数据解析  421DF247 42D40000 00000000 00000000 44210C29 42B27EE4  4426CFBB 41590BD8
 				//         温度           压力           脉冲频率    标况流量    累计百上    累计百下
-				float Temperature     = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(0,8), 16));
-				float Stress          = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(8,16), 16));
-				float Standard_Flow   = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(24,32), 16))  * 3600;
+//				float Temperature     = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(0,8), 16));
+//				float Stress          = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(8,16), 16));
+//				float Standard_Flow   = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(24,32), 16))  * 3600;
 				float Cumulative_High = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(32,36) + "0000", 16));
 				float Cumulative_Low  = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(40,48), 16));
 				float Cumulative      = Cumulative_High * 100 + Cumulative_Low; 
-				System.out.println("Temperature:" + Temperature);
-				System.out.println("Stress:" + Stress);
-				System.out.println("Standard_Flow:" + Standard_Flow);
+//				System.out.println("Temperature:" + Temperature);
+//				System.out.println("Stress:" + Stress);
+//				System.out.println("Standard_Flow:" + Standard_Flow);
 				System.out.println("Cumulative:" + Cumulative);
 
-				String Sql = "insert into pro_i(cpm_id, ctime, Temperature, Stress, Standard_Flow, Cumulative )" + "values('" + this.getActionSource().trim() + "', " + "date_format('" + Dev_CTime.trim() + "', '%Y-%m-%d %H-%i-%S'), " + "'" + Temperature + "', " + "'" + Stress + "', " + "'" + Standard_Flow + "', " + "'"
-						+ Cumulative + "')";
-
+				String Sql = "insert into data(cpm_id, id, cname, attr_id, attr_name, ctime, value, unit)" + "values('" + this.getActionSource().trim() + "', " + "'" + Dev_Id + "', " + "'" + Dev_Name + "', " + "'" + Dev_Attr_Id + "', " + "'" + Dev_Attr_Name + "', " + "date_format('" + Dev_CTime + "', '%Y-%m-%d %H-%i-%S'), " + "'" + Cumulative + "', " + "'" + Dev_Unit + "')";
+				
 				
 				if (m_DbUtil.doUpdate(Sql))
 				{
