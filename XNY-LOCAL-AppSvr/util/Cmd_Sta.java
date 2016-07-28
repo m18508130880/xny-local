@@ -27,17 +27,10 @@ public class Cmd_Sta
 	public static final int CMD_SUBMIT_1001	 				= 1001;
 	public static final int CMD_SUBMIT_1003	 				= 1003;
 	public static final int CMD_SUBMIT_1004	 				= 1004;
-	public static final int CMD_SUBMIT_1011	 				= 1011;
 
 //	==========================AppSvr ~ CPM========================================
-	public static final String DATA_1011_20                 = "0321020001";
-	public static final String DATA_1011_21                 = "0321010001";
-	public static final String DATA_1011_22                 = "0321030001";
-	
-	
-	
-	public static final String DATA_1011_26                 = "0431080026";   //瑞烨法兰  流量计
-	public static final String DATA_1011_27                 = "0431090027";   //伊莱特     流量计
+	public static final String DATA_1011_28                 = "0431080026";   //瑞烨法兰  斯密特流量计
+	public static final String DATA_1011_29                 = "0431090026";   //伊莱特     天信流量计
 		
 //	==================系统状态=====================================================
 	public static final int STA_SUCCESS						= 0000;	//成功

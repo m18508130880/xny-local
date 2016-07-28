@@ -47,7 +47,7 @@ public class AppDeviceDataReqBean extends BaseCmdBean
 		try
 		{
 			/************************** 瑞烨法兰    斯密特流量计 **************************/
-			if ((Dev_Id.substring(0, 6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_26))
+			if ((Dev_Id.substring(0, 6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_28))
 			{
 				// 数据解析  421DF247 42D40000 00000000 00000000 44210C29 42B27EE4
 				//         温度           压力           脉冲频率    标况流量    累计百上    累计百下
@@ -72,13 +72,13 @@ public class AppDeviceDataReqBean extends BaseCmdBean
 
 			}
 			/************************** 伊莱特    天信流量计 **************************/
-			else if ((Dev_Id.substring(0, 6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_27))
+			else if ((Dev_Id.substring(0, 6) + Dev_Attr_Id).equals(Cmd_Sta.DATA_1011_29))
 			{
 				// 数据解析  421DF247 42D40000 00000000 00000000 44210C29 42B27EE4
 				//         累计高位    累计地位    标况流量    工况流量    温度           压力         
 				float Cumulative_High = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(0,8), 16));
 				float Cumulative_Low  = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(8,16), 16));
-//				float Standard_Flow   = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(16,24), 16))  * 3600;
+//				float Standard_Flow   = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(16,24), 16));
 //				float Temperature     = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(32,40), 16));
 //				float Stress          = Float.intBitsToFloat(Integer.parseInt(Dev_CData.substring(40,48), 16));
 				
