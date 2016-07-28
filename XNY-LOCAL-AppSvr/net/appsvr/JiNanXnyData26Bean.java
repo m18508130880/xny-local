@@ -2,12 +2,13 @@ package net.appsvr;
 
 public class JiNanXnyData26Bean
 {
-	String CTime         = "";  //
-	String Temperature   = "";  //流量计温度
-	String Stress          ;     //流量计压力
-	String Standard_Flow   ;     //标况流量
-	String Cumulative_High ;     //累计高位
-	String Cumulative_Low  ;     //累计低位
+	String CTime          = "";        //
+	float Temperature     = 0.0f;      //流量计温度
+	float Stress          = 0.0f ;     //流量计压力
+	float Standard_Flow   = 0.0f ;     //标况流量
+	float Cumulative_High = 0.0f ;     //累计高位
+	float Cumulative_Low  = 0.0f ;     //累计低位
+	
 	public String getCTime()
 	{
 		return CTime;
@@ -16,46 +17,45 @@ public class JiNanXnyData26Bean
 	{
 		CTime = cTime;
 	}
-	public String getTemperature()
+	public float getTemperature()
 	{
 		return Temperature;
 	}
-	public void setTemperature(String temperature)
+	public void setTemperature(float temperature)
 	{
 		Temperature = temperature;
 	}
-	public String getStress()
+	public float getStress()
 	{
 		return Stress;
 	}
-	public void setStress(String stress)
+	public void setStress(float stress)
 	{
 		Stress = stress;
 	}
-	public String getStandard_Flow()
+	public float getStandard_Flow()
 	{
 		return Standard_Flow;
 	}
-	public void setStandard_Flow(String standard_Flow)
+	public void setStandard_Flow(float standard_Flow)
 	{
 		Standard_Flow = standard_Flow;
 	}
-	public String getCumulative_High()
+	public float getCumulative_High()
 	{
 		return Cumulative_High;
 	}
-	public void setCumulative_High(String cumulative_High)
+	public void setCumulative_High(float cumulative_High)
 	{
 		Cumulative_High = cumulative_High;
 	}
-	public String getCumulative_Low()
+	public float getCumulative_Low()
 	{
 		return Cumulative_Low;
 	}
-	public void setCumulative_Low(String cumulative_Low)
+	public void setCumulative_Low(float cumulative_Low)
 	{
 		Cumulative_Low = cumulative_Low;
 	}
 	
-
 }

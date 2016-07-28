@@ -408,11 +408,11 @@ public class TcpClient extends Thread
 			byte[] data = null;
 			Vector<Object> vectData = new Vector<Object>();
 			int nRcvLen = 0;
-			int nRcvPos = 0;
+			int nRcvPos = 0;  //位置 标记
 			int nCursor = 0;
 			byte ctRslt = 0;
 			boolean bContParse = true;
-			byte[] cBuff = new byte[Cmd_Sta.CONST_MAX_BUFF_SIZE];
+			byte[] cBuff = new byte[Cmd_Sta.CONST_MAX_BUFF_SIZE]; //接收缓存的最大数
 			while (true)
 			{
 				try

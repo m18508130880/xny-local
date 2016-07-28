@@ -1,6 +1,5 @@
 package bean;
 
-import net.appsvr.AppCnoocDataReqBean;
 import net.appsvr.AppDeviceAlarmReqBean;
 import net.appsvr.AppDeviceAlertReqBean;
 import net.appsvr.AppDeviceDataReqBean;
@@ -39,7 +38,7 @@ public abstract class BaseCmdBean
 			case Cmd_Sta.CMD_SUBMIT_1000:  //1000
 				retBean = new AppDeviceStatusReqBean(Cmd, SessionId(), dbUtil);
 				break;
-			case Cmd_Sta.CMD_SUBMIT_1001:  //1001
+			case Cmd_Sta.CMD_SUBMIT_1001:  //1001 包含 集合数据解析
 				retBean = new AppDeviceDataReqBean(Cmd, SessionId(), dbUtil);
 				break;
 			case Cmd_Sta.CMD_SUBMIT_1003:  //1003
@@ -47,9 +46,6 @@ public abstract class BaseCmdBean
 				break;
 			case Cmd_Sta.CMD_SUBMIT_1004:  //1004
 				retBean = new AppDeviceAlertReqBean(Cmd, SessionId(), dbUtil);
-				break;
-			case Cmd_Sta.CMD_SUBMIT_1011:  //1011  集合数据解析
-				retBean = new AppCnoocDataReqBean(Cmd, SessionId(), dbUtil);
 				break;
 		}
 		return retBean;

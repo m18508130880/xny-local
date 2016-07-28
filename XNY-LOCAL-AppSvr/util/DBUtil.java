@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import net.appsvr.CnoocDataZXBean;
+
 import net.appsvr.CnoocStationBean;
 
 import org.dom4j.Document;
@@ -176,47 +176,7 @@ public class DBUtil
 	}
 	
 	
-	public LinkedList<Object> getSelFromZX(String sql)
-	{
-		LinkedList<Object> sendMsgList = new LinkedList<Object>();
-		Connection conn = null;
-		PreparedStatement pStmt = null;
-		ResultSet rs = null;
-		try
-		{
-			conn = svrConnPool.getConnection();
-			conn.setAutoCommit(false);
-			pStmt = conn.prepareStatement(sql);
-			rs = pStmt.executeQuery();
-			while(rs.next())
-			{
-				CnoocDataZXBean DataZXBean = new CnoocDataZXBean();
-				DataZXBean.getData(rs);
-				sendMsgList.addLast(DataZXBean);
-			}
-		}
-		catch(SQLException sqlExp)
-		{
-			sqlExp.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				if(null != rs)
-					rs.close();
-				if(null != pStmt)
-					pStmt.close();
-				if(null != conn)
-					conn.close();
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-		return sendMsgList;
-	}
+
 	 public LinkedList<Object> getStationInfo(String sql)
 	  {
 	    LinkedList<Object> sendMsgList = new LinkedList<Object>();

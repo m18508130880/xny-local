@@ -36,8 +36,8 @@ public class Cmd_Sta
 	
 	
 	
-	public static final String DATA_1011_28                 = "0431080001";   //瑞烨法兰  流量计
-	public static final String DATA_1011_29                 = "0431090001";   //伊莱特     流量计
+	public static final String DATA_1011_26                 = "0431080026";   //瑞烨法兰  流量计
+	public static final String DATA_1011_27                 = "0431090027";   //伊莱特     流量计
 		
 //	==================系统状态=====================================================
 	public static final int STA_SUCCESS						= 0000;	//成功
