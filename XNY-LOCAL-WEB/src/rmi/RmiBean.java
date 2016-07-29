@@ -38,9 +38,7 @@ public abstract class RmiBean implements Serializable
 	public static final int RMI_ALERT			        = 32;
 	public static final int RMI_ACC_DATA    	        = 33;//累积流量信息
 	
-	
-	
-	
+
 	public MsgBean msgBean = null;
 	public String className;
 	public CurrStatus currStatus = null;
