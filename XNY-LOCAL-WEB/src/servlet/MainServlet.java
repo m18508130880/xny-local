@@ -266,11 +266,11 @@ public class MainServlet extends HttpServlet
         	new DataBean().ExportToExcel(request, response, m_Rmi, false);
         else if (strUrl.equalsIgnoreCase("Graph.do"))	                         //数据图表
         	new DataBean().Graph(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Env_File.do"))						 //图片上传
-        	new DataBean().DaoFile(request, response, m_Rmi, false);
+//        else if (strUrl.equalsIgnoreCase("Env_File.do"))						 //图片上传
+//        	new DataBean().DaoFile(request, response, m_Rmi, false);
         
         /**************************************user-Acc***************************************************/
-        else if (strUrl.equalsIgnoreCase("Acc_Data_Day.do"))				     //累积数据
+        else if (strUrl.equalsIgnoreCase("Acc_Data.do"))				         //累积数据
             new AccDataBean().ExecCmd(request, response, m_Rmi, false);  
        
     }
