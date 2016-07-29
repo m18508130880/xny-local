@@ -40,7 +40,6 @@ import util.*;
  * 实时数据与历史数据 
  * DataBean数据处理bean
  * @author cui
- *
  */
 public class DataBean extends RmiBean 
 {	

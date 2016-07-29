@@ -87,14 +87,6 @@ public class UserInfoBean extends RmiBean
 					msgBean = pRmi.RmiExec(0, deviceDetailBean, 0);
 					request.getSession().setAttribute("User_Device_Detail_" + Sid, (Object)msgBean.getMsg());
 					
-					//站点设备
-			    	DataBean dataBean = new DataBean();
-			    	msgBean = pRmi.RmiExec(3, dataBean, 0);
-					request.getSession().setAttribute("User_Data_Device_" + Sid, (Object)msgBean.getMsg());
-					
-			    	//站点参数
-					msgBean = pRmi.RmiExec(4, dataBean, 0);
-					request.getSession().setAttribute("User_Data_Attr_" + Sid, (Object)msgBean.getMsg());
 					
 					//人员信息
 			    	msgBean = pRmi.RmiExec(4, this, 0);

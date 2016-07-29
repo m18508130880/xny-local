@@ -194,7 +194,7 @@ public class RmiImpl extends UnicastRemoteObject implements Rmi
 						rmiBean = new DataBean();
 						break;
 					case RmiBean.RMI_ACC_DATA:
-						rmiBean = new DataBean();
+						rmiBean = new AccDataBean();
 						break;
 					case RmiBean.RMI_ALARM:
 						rmiBean = new AlarmInfoBean();

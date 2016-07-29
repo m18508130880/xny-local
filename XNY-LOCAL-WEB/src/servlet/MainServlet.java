@@ -271,13 +271,13 @@ public class MainServlet extends HttpServlet
         
         /**************************************user-Acc***************************************************/
         else if (strUrl.equalsIgnoreCase("Acc_Data_Day.do"))				     //累积数据
-            new AccDataBean().ExecCmd(request, response, m_Rmi, false);
+            new AccDataBean().ExecCmd(request, response, m_Rmi, false);  
        
     }
     
-    /** 链接测试类
+    /** 
+     * 链接测试类
      * @author iwant
-     *
      */
     private class Connect extends Thread
 	{
@@ -318,7 +318,8 @@ public class MainServlet extends HttpServlet
     	}
     }
 	
-    /** 得到当前项目的 URL 
+    /** 
+     * 得到当前项目的 URL 
      * @param request
      * @return
      */

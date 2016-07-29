@@ -249,52 +249,6 @@ public class AccDataBean extends RmiBean
 		}
 	}
 
-	/** Õº∆¨µº»Î
-	 * @param request
-	 * @param response
-	 * @param pRmi
-	 * @param pFromZone
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public void DaoFile(HttpServletRequest request, HttpServletResponse response, Rmi pRmi, boolean pFromZone) throws ServletException, IOException
-	{						
-		DiskFileItemFactory factory = new DiskFileItemFactory();    	
-		ServletFileUpload sfu = new ServletFileUpload(factory); 	
-		System.out.println(Sid);
-		String value = "";
-		try {				
-				List<FileItem> items = sfu.parseRequest(request);
-				for(int i=0;i<items.size();i++)
-				{
-					FileItem item = items.get(i);
-					if(item.isFormField()){						
-						String fieldName = item.getFieldName();
-						System.out.println("["+fieldName+"]");
-						value = item.getString();
-						System.out.println("["+value+"]");
-					}else
-					{
-						ServletContext sctx = request.getSession().getServletContext();
-						String path = sctx.getRealPath("/skin/images/CPM_TU/");
-						System.out.println("["+path+"]");
-						String fileName = item.getName();						
-						String[] str = fileName.split("\\.");	
-						String newName = value+"."+str[1];
-						System.out.println("newName["+newName+"]");
-						File file = new File(path + File.separator + newName);
-						item.write(file);						
-					}  
-				}			
-			} catch (Exception e) 
-			{
-				e.printStackTrace();
-			}		
-		
-		
-	}
-
-
 	public String getSql(int pCmd)
 	{
 		String Sql = "";
