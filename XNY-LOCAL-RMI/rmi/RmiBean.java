@@ -36,15 +36,9 @@ public abstract class RmiBean implements Serializable
 	public static final int RMI_DATA			        = 30;
 	public static final int RMI_ALARM			        = 31;
 	public static final int RMI_ALERT			        = 32;
-	public static final int RMI_PRO_I			        = 33;
-	public static final int RMI_PRO_O			        = 34;
-	public static final int RMI_PRO_L			        = 35;
-	public static final int RMI_PRO_R			        = 50;
-	public static final int RMI_PRO_L_CRM			    = 62;
-	public static final int RMI_PRO_L_CRP			    = 63;
-	public static final int RMI_P_L_CRM                 = 64;
-	public static final int RMI_DATE_BAO		        = 67;//新加场站日报信息表
-	public static final int RMI_PRO_I_TANK		        = 68;//新加卸车储罐表
+	public static final int RMI_ACC_DATA    	        = 33;//累积流量信息
+	
+	
 	
 	
 	public MsgBean msgBean = null;

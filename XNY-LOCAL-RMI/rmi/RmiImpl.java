@@ -186,47 +186,15 @@ public class RmiImpl extends UnicastRemoteObject implements Rmi
 					case RmiBean.RMI_DEVICE_DETAIL:
 				 		rmiBean = new DeviceDetailBean();
 				 		break;
-					
 					case RmiBean.RMI_USER_POSITION:
 						rmiBean = new UserPositionBean();
-						break;
-					
-					case RmiBean.RMI_CRM_INFO:
-						rmiBean = new CrmInfoBean();
-						break;
-					case RmiBean.RMI_CCM_INFO:
-						rmiBean = new CcmInfoBean();
 						break;
 				/******************user*****************/
 					case RmiBean.RMI_DATA:
 						rmiBean = new DataBean();
 						break;
-					case RmiBean.RMI_PRO_I:
-						rmiBean = new ProIBean();
-						break;
-					case RmiBean.RMI_PRO_O:
-						rmiBean = new ProOBean();
-						break;
-					case RmiBean.RMI_PRO_L:
-						rmiBean = new ProLBean();
-						break;
-					case RmiBean.RMI_PRO_R:
-						rmiBean = new ProRBean();
-						break;
-					case RmiBean.RMI_PRO_L_CRM:
-						rmiBean = new ProLCrmBean();
-						break;
-					case RmiBean.RMI_PRO_L_CRP:
-						rmiBean = new ProLCrpBean();
-						break;
-					case RmiBean.RMI_P_L_CRM:
-						rmiBean = new PLCrmBean();
-						break;
-					case RmiBean.RMI_DATE_BAO:
-						rmiBean = new DateBaoBean();
-						break;
-					case RmiBean.RMI_PRO_I_TANK:
-						rmiBean = new ProITankBean();
+					case RmiBean.RMI_ACC_DATA:
+						rmiBean = new DataBean();
 						break;
 					case RmiBean.RMI_ALARM:
 						rmiBean = new AlarmInfoBean();

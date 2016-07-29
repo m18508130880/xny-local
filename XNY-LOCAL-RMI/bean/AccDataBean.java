@@ -37,14 +37,14 @@ import util.*;
 
 
 /** 
- * 实时数据与历史数据 
- * DataBean数据处理bean
+ * 累积流量数据处理bean(每天的流量用量) 
+ * AccDataBean数据处理bean
  * @author cui
- *
+ * 
  */
-public class DataBean extends RmiBean 
+public class AccDataBean extends RmiBean 
 {	
-	public final static long serialVersionUID = RmiBean.RMI_DATA;
+	public final static long serialVersionUID = RmiBean.RMI_ACC_DATA;
 	
 	/* 获得DataBean的 serialVersionUID (non-Javadoc)
 	 * @see rmi.RmiBean#getClassId()
@@ -54,12 +54,12 @@ public class DataBean extends RmiBean
 		return serialVersionUID;
 	}
 	
-	public DataBean()
+	public AccDataBean()
 	{
 		super.className = "DataBean";
 	}
 	
-	/** 查询数据 实时数据与历史数据
+	/** 查询数据累积流量数据
 	 * @param request
 	 * @param response
 	 * @param pRmi
@@ -156,7 +156,7 @@ public class DataBean extends RmiBean
 				while(iterator.hasNext())
 				{
 					i++;
-					DataBean Bean = (DataBean)iterator.next();
+					AccDataBean Bean = (AccDataBean)iterator.next();
 					String D_Cpm_Name = Bean.getCpm_Name();
 					String D_CName = Bean.getCName();
 					String D_Attr_Name = Bean.getAttr_Name();

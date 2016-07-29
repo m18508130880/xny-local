@@ -116,11 +116,16 @@ public class AlertInfoBean extends RmiBean
 			Func_Sel_Id = "";
 		}
 		
-		msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
+		try{
+			msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
+			
+		}catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		
 		switch(currStatus.getCmd())
 		{
 		    case 0://≤È—Ø
-		    	
 		    	request.getSession().setAttribute("Alert_Info_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	currStatus.setJsp("Alert_Info.jsp?Sid=" + Sid);

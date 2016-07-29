@@ -269,33 +269,10 @@ public class MainServlet extends HttpServlet
         else if (strUrl.equalsIgnoreCase("Env_File.do"))						 //图片上传
         	new DataBean().DaoFile(request, response, m_Rmi, false);
         
-        /**************************************user-pro***************************************************/
-        
-        else if (strUrl.equalsIgnoreCase("Pro_I.do"))	                         //卸车记录
-        	new ProIBean().ExecCmd(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_I_Export.do"))	                 //卸车记录-导出
-        	new ProIBean().ExportToExcel(request, response, m_Rmi, false);
-//      else if (strUrl.equalsIgnoreCase("Pro_I_Detail_Export.do"))	             //卸车记录-明细导出
-//        	new ProIBean().MxToExcel(request, response, m_Rmi, false);                 
-        else if (strUrl.equalsIgnoreCase("Pro_I_Add.do"))	                     //卸车记录-添加
-        	new ProIBean().ProIAdd(request, response, m_Rmi, false);
-        
-        else if (strUrl.equalsIgnoreCase("Pro_L.do"))	                         //场站报表
-        	new ProLBean().ExecCmd(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_Y.do"))	                         //场站报表-年报表
-        	new ProLBean().ExecCmd(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_L_Export.do"))	                 //场站报表-月报表
-        	new ProLBean().ExportToExcel(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_L_W_Export.do"))	             	 //场站报表-周报表
-        	new ProLBean().ExportToExcel_W(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_L_D_Export.do"))	             	 //场站报表-日报表
-        	new ProLBean().ExportToExcel_D(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_L_Y_Export.do"))	             	 //场站报表-年报表导出
-        	new ProLBean().ExportToExcel_Y(request, response, m_Rmi, false);        
-        else if (strUrl.equalsIgnoreCase("Pro_G.do"))	             	 		 //场站报表-图表分析
-        	new ProLBean().Pro_G(request, response, m_Rmi, false);
-        else if (strUrl.equalsIgnoreCase("Pro_I_CC.do"))	                     //槽车统计表
-        	new ProIBean().ExecCmd(request, response, m_Rmi, false);
+        /**************************************user-Acc***************************************************/
+        else if (strUrl.equalsIgnoreCase("Acc_Data_Day.do"))				     //累积数据
+            new AccDataBean().ExecCmd(request, response, m_Rmi, false);
+       
     }
     
     /** 链接测试类

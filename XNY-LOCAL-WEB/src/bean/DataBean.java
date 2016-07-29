@@ -36,7 +36,9 @@ import rmi.RmiBean;
 import util.*;
 
 
-/** DataBean数据处理bean
+/** 
+ * 实时数据与历史数据 
+ * DataBean数据处理bean
  * @author cui
  *
  */

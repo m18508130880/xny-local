@@ -11,9 +11,9 @@ import rmi.Rmi;
 import rmi.RmiBean;
 import util.*;
 
-/** 管理权限和功能权限   和表 role关联
+/** 管理权限和功能权限
  * @author cui
- *
+ *  与表 role关联
  */
 public class UserRoleBean extends RmiBean 
 {	
