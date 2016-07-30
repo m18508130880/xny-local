@@ -56,7 +56,7 @@ public class AccDataBean extends RmiBean
 	
 	public AccDataBean()
 	{
-		super.className = "DataBean";
+		super.className = "AccDataBean";
 	}
 	
 	/** 累积流量 查询
@@ -76,15 +76,22 @@ public class AccDataBean extends RmiBean
 		msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		switch(currStatus.getCmd())
 		{
-		    case 0://累积流量
-		    	request.getSession().setAttribute("Acc_Data_Day_" + Sid, ((Object)msgBean.getMsg()));
-		    	currStatus.setJsp("Acc_Data_Day.jsp?Sid=" + Sid);	
+		    case 0://各站点：累积流量
+		    	currStatus.setTotalRecord(msgBean.getCount());
+		    	request.getSession().setAttribute("Acc_Data_Sta_" + Sid, ((Object)msgBean.getMsg()));
+		    	currStatus.setJsp("Acc_Data_Sta.jsp?Sid=" + Sid);	
 		    	break;
 		    	
-		    case 2://历史数据
-		    	request.getSession().setAttribute("Env_His_" + Sid, ((Object)msgBean.getMsg()));
+		    case 1://日用量总表
 		    	currStatus.setTotalRecord(msgBean.getCount());
-		    	currStatus.setJsp("Env_His.jsp?Sid=" + Sid);
+		    	request.getSession().setAttribute("Acc_Data_Day_" + Sid, ((Object)msgBean.getMsg()));
+		    	currStatus.setJsp("Acc_Data_Day.jsp?Sid=" + Sid);
+		    	break;
+		    	
+		    case 2://月用量总表
+		    	currStatus.setTotalRecord(msgBean.getCount());
+		    	request.getSession().setAttribute("Acc_Data_Month_" + Sid, ((Object)msgBean.getMsg()));
+		    	currStatus.setJsp("Acc_Data_Month.jsp?Sid=" + Sid);
 		    	break;
 		}
 		
@@ -255,31 +262,30 @@ public class AccDataBean extends RmiBean
 		switch (pCmd)
 		{
 			case 0://累积流量 (历史) 站点用气表
-			   Sql = " select t.sn, t.cpm_id, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from acc_data_day t " +
+			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
+					 " from view_acc_data_day t " +
 					 " where instr('"+ Cpm_Id +"', t.cpm_id) > 0 " +
 					 " and t.ctime >= date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m-%d %H-%i-%S')" +
 					 " and t.ctime <= date_format('"+currStatus.getVecDate().get(1).toString()+"', '%Y-%m-%d %H-%i-%S')" +
 					 " order by t.ctime desc ";
 			   break;
-			case 3://按日期
-			   Sql = " select t.sn, t.cpm_id, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from acc_data_day t " +
-			  	  	 " where instr('"+ Cpm_Id +"', concat(t.cpm_id, t.id)) > 0 " +
-			  	  	 " and t.ctime >= date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m-%d %H-%i-%S')" +
-			  	  	 " and t.ctime <= date_format('"+currStatus.getVecDate().get(1).toString()+"', '%Y-%m-%d %H-%i-%S')" +
+			case 1://日用量总表
+			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
+					 " from view_acc_data_day t " +
+			  	  	 " where t.ctime = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m-%d')" +
+			  	  	 " order by t.cpm_id ";
+			   break;
+			case 2://月用量总表
+			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
+					 " from view_acc_data_day t " +
+					 " where instr('"+ Cpm_Id +"', t.cpm_id) > 0 " +
+			  	  	 " and date_format(t.ctime, '%Y-%m') = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m')" +
 			  	  	 " order by t.ctime desc ";
 			   break;
-			case 6://实时数据查询设备[有多少设备]
-				Sql = " select '' AS sn, t.cpm_id, t.id, t.cname, '' AS attr_id, '' AS attr_name, '' AS ctime, '' AS VALUE, '' AS unit, '' AS lev, '' AS des " +
-					  " FROM view_data_now t" +
-					  " where instr('"+ Cpm_Id +"', t.cpm_id) > 0 " +
-					  " GROUP BY t.cpm_id, t.id" +				  
-					  " ORDER BY t.cpm_id, t.id";
-				break;
+			
 			case 20://数据图表
-				Sql = " {? = call rmi_graph('"+ Id +"', '"+ currStatus.getFunc_Sub_Id() +"', '"+ currStatus.getVecDate().get(0).toString().substring(0,10) +"')}";
-				break;
+			   Sql = " {? = call rmi_graph('"+ Id +"', '"+ currStatus.getFunc_Sub_Id() +"', '"+ currStatus.getVecDate().get(0).toString().substring(0,10) +"')}";
+			   break;
 		}
 		return Sql;
 	}
@@ -292,16 +298,17 @@ public class AccDataBean extends RmiBean
 		{
 			setSN(pRs.getString(1));
 			setCpm_Id(pRs.getString(2));		
-			setId(pRs.getString(3));
-			setCName(pRs.getString(4));		
-			setAttr_Id(pRs.getString(5));
-			setAttr_Name(pRs.getString(6));			
-			setCTime(pRs.getString(7));
-			setB_Value(pRs.getString(8));
-			setE_Value(pRs.getString(9));
-			setValue(pRs.getString(10));
-			setUnit(pRs.getString(11));
-			setDes(pRs.getString(12));
+			setCpm_Name(pRs.getString(3));		
+			setId(pRs.getString(4));
+			setCName(pRs.getString(5));		
+			setAttr_Id(pRs.getString(6));
+			setAttr_Name(pRs.getString(7));			
+			setCTime(pRs.getString(8));
+			setB_Value(pRs.getString(9));
+			setE_Value(pRs.getString(10));
+			setValue(pRs.getString(11));
+			setUnit(pRs.getString(12));
+			setDes(pRs.getString(13));
 		} 
 		catch (SQLException sqlExp) 
 		{
@@ -321,6 +328,7 @@ public class AccDataBean extends RmiBean
 		{	
 			setSN(CommUtil.StrToGB2312(request.getParameter("SN")));
 			setCpm_Id(CommUtil.StrToGB2312(request.getParameter("Cpm_Id")));
+			setCpm_Name(CommUtil.StrToGB2312(request.getParameter("Cpm_Name")));
 			setId(CommUtil.StrToGB2312(request.getParameter("Id")));
 			setCName(CommUtil.StrToGB2312(request.getParameter("CName")));
 			setAttr_Id(CommUtil.StrToGB2312(request.getParameter("Attr_Id")));
@@ -347,6 +355,7 @@ public class AccDataBean extends RmiBean
 	
 	private String SN;
 	private String Cpm_Id;
+	private String Cpm_Name;
 	private String Id;
 	private String CName;
 	private String Attr_Id;
@@ -383,6 +392,16 @@ public class AccDataBean extends RmiBean
 	public void setCpm_Id(String cpm_Id)
 	{
 		Cpm_Id = cpm_Id;
+	}
+	
+	public String getCpm_Name()
+	{
+		return Cpm_Name;
+	}
+
+	public void setCpm_Name(String cpm_Name)
+	{
+		Cpm_Name = cpm_Name;
 	}
 
 	public String getId()
