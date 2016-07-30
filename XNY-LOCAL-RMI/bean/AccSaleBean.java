@@ -1,65 +1,37 @@
 package bean;
 
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-
-
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
-
-
-
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 import rmi.Rmi;
 import rmi.RmiBean;
 import util.*;
 
-
 /** 
- * 累积流量数据处理bean(每天的流量用量) 
+ * 销售数据处理bean(每天的销售额) 
  * AccDataBean数据处理bean
  * @author cui
  * 
  */
-public class AccDataBean extends RmiBean 
+public class AccSaleBean extends RmiBean 
 {	
-	public final static long serialVersionUID = RmiBean.RMI_ACC_DATA;
+	public final static long serialVersionUID = RmiBean.RMI_ACC_SALE;
 	
-	/* 获得DataBean的 serialVersionUID (non-Javadoc)
-	 * @see rmi.RmiBean#getClassId()
-	 */
 	public long getClassId()
 	{
 		return serialVersionUID;
 	}
 	
-	public AccDataBean()
+	public AccSaleBean()
 	{
-		super.className = "AccDataBean";
+		super.className = "AccSaleBean";
 	}
 	
-	/** 累积流量 查询
+	/** 销售 查询
 	 * @param request
 	 * @param response
 	 * @param pRmi
@@ -76,22 +48,22 @@ public class AccDataBean extends RmiBean
 		msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		switch(currStatus.getCmd())
 		{
-		    case 0://各站点：累积流量
+		    case 0://各站点：销售列表
 		    	currStatus.setTotalRecord(msgBean.getCount());
-		    	request.getSession().setAttribute("Acc_Data_Sta_" + Sid, ((Object)msgBean.getMsg()));
-		    	currStatus.setJsp("Acc_Data_Sta.jsp?Sid=" + Sid);	
+		    	request.getSession().setAttribute("Acc_Sale_Sta_" + Sid, ((Object)msgBean.getMsg()));
+		    	currStatus.setJsp("Acc_Sale_Sta.jsp?Sid=" + Sid);	
 		    	break;
 		    	
-		    case 1://日用量总表
+		    case 1://日销售总表
 		    	currStatus.setTotalRecord(msgBean.getCount());
-		    	request.getSession().setAttribute("Acc_Data_Day_" + Sid, ((Object)msgBean.getMsg()));
-		    	currStatus.setJsp("Acc_Data_Day.jsp?Sid=" + Sid);
+		    	request.getSession().setAttribute("Acc_Sale_Day_" + Sid, ((Object)msgBean.getMsg()));
+		    	currStatus.setJsp("Acc_Sale_Day.jsp?Sid=" + Sid);
 		    	break;
 		    	
-		    case 2://月用量总表
+		    case 2://月销售总表
 		    	currStatus.setTotalRecord(msgBean.getCount());
-		    	request.getSession().setAttribute("Acc_Data_Month_" + Sid, ((Object)msgBean.getMsg()));
-		    	currStatus.setJsp("Acc_Data_Month.jsp?Sid=" + Sid);
+		    	request.getSession().setAttribute("Acc_Sale_Month_" + Sid, ((Object)msgBean.getMsg()));
+		    	currStatus.setJsp("Acc_Sale_Month.jsp?Sid=" + Sid);
 		    	break;
 		}
 		
@@ -261,29 +233,25 @@ public class AccDataBean extends RmiBean
 		String Sql = "";
 		switch (pCmd)
 		{
-			case 0://累积流量 (历史) 站点用气表
-			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from view_acc_data_day t " +
+			case 0://累积銷售 (历史) 站点销售表
+			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.ctime, t.unit_price, t.value, t.salary, t.des " +
+					 " from view_Acc_Sale_day t " +
 					 " where instr('"+ Cpm_Id +"', t.cpm_id) > 0 " +
 					 " and t.ctime >= date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m-%d %H-%i-%S')" +
 					 " and t.ctime <= date_format('"+currStatus.getVecDate().get(1).toString()+"', '%Y-%m-%d %H-%i-%S')" +
 					 " order by t.ctime desc ";
 			   break;
-			case 1://日用量总表
-			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from view_acc_data_day t " +
+			case 1://日销售总表
+			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.ctime, t.unit_price, t.value, t.salary, t.des " +
+					 " from view_Acc_Sale_day t " +
 			  	  	 " where t.ctime = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m-%d')" +
 			  	  	 " order by t.cpm_id ";
 			   break;
-			case 2://月用量总表
-			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from view_acc_data_month t " +
+			case 2://月销售总表
+			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.ctime, t.unit_price, t.value, t.salary, t.des " +
+					 " from view_Acc_Sale_month t " +
 					 " where date_format(t.ctime, '%Y-%m') = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m')" +
 			  	  	 " order by t.cpm_id ";
-			   break;
-			
-			case 20://数据图表
-			   Sql = " {? = call rmi_graph('"+ Id +"', '"+ currStatus.getFunc_Sub_Id() +"', '"+ currStatus.getVecDate().get(0).toString().substring(0,10) +"')}";
 			   break;
 		}
 		return Sql;
@@ -298,16 +266,11 @@ public class AccDataBean extends RmiBean
 			setSN(pRs.getString(1));
 			setCpm_Id(pRs.getString(2));		
 			setCpm_Name(pRs.getString(3));		
-			setId(pRs.getString(4));
-			setCName(pRs.getString(5));		
-			setAttr_Id(pRs.getString(6));
-			setAttr_Name(pRs.getString(7));			
-			setCTime(pRs.getString(8));
-			setB_Value(pRs.getString(9));
-			setE_Value(pRs.getString(10));
-			setValue(pRs.getString(11));
-			setUnit(pRs.getString(12));
-			setDes(pRs.getString(13));
+			setCTime(pRs.getString(4));
+			setUnit_Price(pRs.getString(5));
+			setValue(pRs.getString(6));
+			setSalary(pRs.getString(7));
+			setDes(pRs.getString(8));
 		} 
 		catch (SQLException sqlExp) 
 		{
@@ -328,15 +291,10 @@ public class AccDataBean extends RmiBean
 			setSN(CommUtil.StrToGB2312(request.getParameter("SN")));
 			setCpm_Id(CommUtil.StrToGB2312(request.getParameter("Cpm_Id")));
 			setCpm_Name(CommUtil.StrToGB2312(request.getParameter("Cpm_Name")));
-			setId(CommUtil.StrToGB2312(request.getParameter("Id")));
-			setCName(CommUtil.StrToGB2312(request.getParameter("CName")));
-			setAttr_Id(CommUtil.StrToGB2312(request.getParameter("Attr_Id")));
-			setAttr_Name(CommUtil.StrToGB2312(request.getParameter("Attr_Name")));		
 			setCTime(CommUtil.StrToGB2312(request.getParameter("CTime")));		
-			setB_Value(CommUtil.StrToGB2312(request.getParameter("B_Value")));
-			setE_Value(CommUtil.StrToGB2312(request.getParameter("E_Value")));
+			setUnit_Price(CommUtil.StrToGB2312(request.getParameter("Unit_Price")));
 			setValue(CommUtil.StrToGB2312(request.getParameter("Value")));
-			setUnit(CommUtil.StrToGB2312(request.getParameter("Unit")));
+			setSalary(CommUtil.StrToGB2312(request.getParameter("Salary")));
 			setDes(CommUtil.StrToGB2312(request.getParameter("Des")));
 			
 			setSid(CommUtil.StrToGB2312(request.getParameter("Sid")));
@@ -355,15 +313,10 @@ public class AccDataBean extends RmiBean
 	private String SN;
 	private String Cpm_Id;
 	private String Cpm_Name;
-	private String Id;
-	private String CName;
-	private String Attr_Id;
-	private String Attr_Name;
 	private String CTime;
-	private String B_Value;
-	private String E_Value;
+	private String Unit_Price;
 	private String Value;
-	private String Unit;
+	private String Salary;
 	private String Des;
 
 	private String Sid;
@@ -371,6 +324,23 @@ public class AccDataBean extends RmiBean
 	private String Year;
 	private String Month;
 	
+
+	public String getUnit_Price() {
+		return Unit_Price;
+	}
+
+	public void setUnit_Price(String unit_Price) {
+		Unit_Price = unit_Price;
+	}
+
+	public String getSalary() {
+		return Salary;
+	}
+
+	public void setSalary(String salary) {
+		Salary = salary;
+	}
+
 	private String Func_Cpm_Id;
 
 	public String getSN()
@@ -403,45 +373,7 @@ public class AccDataBean extends RmiBean
 		Cpm_Name = cpm_Name;
 	}
 
-	public String getId()
-	{
-		return Id;
-	}
-
-	public void setId(String id)
-	{
-		Id = id;
-	}
-
-	public String getCName()
-	{
-		return CName;
-	}
-
-	public void setCName(String cName)
-	{
-		CName = cName;
-	}
-
-	public String getAttr_Id()
-	{
-		return Attr_Id;
-	}
-
-	public void setAttr_Id(String attr_Id)
-	{
-		Attr_Id = attr_Id;
-	}
-
-	public String getAttr_Name()
-	{
-		return Attr_Name;
-	}
-
-	public void setAttr_Name(String attr_Name)
-	{
-		Attr_Name = attr_Name;
-	}
+	
 
 	public String getCTime()
 	{
@@ -453,26 +385,7 @@ public class AccDataBean extends RmiBean
 		CTime = cTime;
 	}
 
-	public String getB_Value()
-	{
-		return B_Value;
-	}
-
-	public void setB_Value(String b_Value)
-	{
-		B_Value = b_Value;
-	}
-
-	public String getE_Value()
-	{
-		return E_Value;
-	}
-
-	public void setE_Value(String e_Value)
-	{
-		E_Value = e_Value;
-	}
-
+	
 	public String getValue()
 	{
 		return Value;
@@ -481,16 +394,6 @@ public class AccDataBean extends RmiBean
 	public void setValue(String value)
 	{
 		Value = value;
-	}
-
-	public String getUnit()
-	{
-		return Unit;
-	}
-
-	public void setUnit(String unit)
-	{
-		Unit = unit;
 	}
 
 	public String getDes()

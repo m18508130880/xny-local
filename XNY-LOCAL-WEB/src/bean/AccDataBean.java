@@ -277,10 +277,9 @@ public class AccDataBean extends RmiBean
 			   break;
 			case 2://月用量总表
 			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from view_acc_data_day t " +
-					 " where instr('"+ Cpm_Id +"', t.cpm_id) > 0 " +
-			  	  	 " and date_format(t.ctime, '%Y-%m') = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m')" +
-			  	  	 " order by t.ctime desc ";
+					 " from view_acc_data_month t " +
+					 " where date_format(t.ctime, '%Y-%m') = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m')" +
+			  	  	 " order by t.cpm_id ";
 			   break;
 			
 			case 20://数据图表

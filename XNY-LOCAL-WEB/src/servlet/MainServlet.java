@@ -270,8 +270,10 @@ public class MainServlet extends HttpServlet
 //        	new DataBean().DaoFile(request, response, m_Rmi, false);
         
         /**************************************user-Acc***************************************************/
-        else if (strUrl.equalsIgnoreCase("Acc_Data.do"))				         //累积数据
+        else if (strUrl.equalsIgnoreCase("Acc_Data.do"))				         //累积流量数据
             new AccDataBean().ExecCmd(request, response, m_Rmi, false);  
+        else if (strUrl.equalsIgnoreCase("Acc_Sale.do"))				         //销售数据
+        	new AccSaleBean().ExecCmd(request, response, m_Rmi, false);  
        
     }
     
