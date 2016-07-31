@@ -128,28 +128,7 @@ public class MainServlet extends HttpServlet
         	request.getSession().removeAttribute("Graph_" + strSid);
         	request.getSession().removeAttribute("Alarm_Info_" + strSid);
         	request.getSession().removeAttribute("Alert_Info_" + strSid);    	
-        	request.getSession().removeAttribute("Pro_R_" + strSid);       	
-        	request.getSession().removeAttribute("Pro_R_Buss_" + strSid);
-        	request.getSession().removeAttribute("Pro_R_Type_" + strSid);
-        	request.getSession().removeAttribute("Pro_I_" + strSid);
-        	request.getSession().removeAttribute("Pro_O_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_" + strSid);
-        	request.getSession().removeAttribute("Pro_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_Y_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_C_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_D_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crm_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_M_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_M_C_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_M_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_Y_C_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_W_C_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_W_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_D_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_D_Crm_" + strSid);
+        	
         	request.getSession().removeAttribute("BYear_" + strSid);
         	request.getSession().removeAttribute("BMonth_" + strSid);
         	request.getSession().removeAttribute("BWeek_" + strSid);
@@ -158,7 +137,7 @@ public class MainServlet extends HttpServlet
         	request.getSession().removeAttribute("EWeek_" + strSid);
         	request.getSession().removeAttribute("BDate_" + strSid);
         	request.getSession().removeAttribute("EDate_" + strSid);
-        	request.getSession().removeAttribute("Pro_G_" + strSid);
+        	
         	
         	//request.getSession().invalidate();
         	response.getWriter().write("<script language = javascript>window.parent.location.href='../index.jsp'</script>");
@@ -182,28 +161,7 @@ public class MainServlet extends HttpServlet
         	request.getSession().removeAttribute("Graph_" + strSid);
         	request.getSession().removeAttribute("Alarm_Info_" + strSid);
         	request.getSession().removeAttribute("Alert_Info_" + strSid);
-        	request.getSession().removeAttribute("Pro_R_" + strSid);
-        	request.getSession().removeAttribute("Pro_R_Buss_" + strSid);
-        	request.getSession().removeAttribute("Pro_R_Type_" + strSid);
-        	request.getSession().removeAttribute("Pro_I_" + strSid);
-        	request.getSession().removeAttribute("Pro_O_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_" + strSid);
-        	request.getSession().removeAttribute("Pro_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_Y_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_C_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_D_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crm_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_M_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_M_C_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_M_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_Y_C_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_W_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_W_C_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_W_Y_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_D_" + strSid);
-        	request.getSession().removeAttribute("Pro_L_Crp_D_Crm_" + strSid);
+        	
         	request.getSession().removeAttribute("BYear_" + strSid);
         	request.getSession().removeAttribute("BMonth_" + strSid);
         	request.getSession().removeAttribute("BWeek_" + strSid);
@@ -212,7 +170,7 @@ public class MainServlet extends HttpServlet
         	request.getSession().removeAttribute("EWeek_" + strSid);
         	request.getSession().removeAttribute("BDate_" + strSid);
         	request.getSession().removeAttribute("EDate_" + strSid);
-        	request.getSession().removeAttribute("Pro_G_" + strSid);
+        	
         	//request.getSession().invalidate();
         	response.getWriter().write("<script language = javascript>window.parent.location.href='../../index.jsp'</script>");
         }
