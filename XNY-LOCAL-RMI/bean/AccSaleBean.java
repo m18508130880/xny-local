@@ -45,22 +45,23 @@ public class AccSaleBean extends RmiBean
 		currStatus = (CurrStatus)request.getSession().getAttribute("CurrStatus_" + Sid);
 		currStatus.getHtmlData(request, pFromZone);
 		
-		msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		switch(currStatus.getCmd())
 		{
 		    case 0://各站点：销售列表
-		    	currStatus.setTotalRecord(msgBean.getCount());
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, 0);
 		    	request.getSession().setAttribute("Acc_Sale_Sta_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Sale_Sta.jsp?Sid=" + Sid);	
 		    	break;
 		    	
 		    case 1://日销售总表
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	request.getSession().setAttribute("Acc_Sale_Day_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Sale_Day.jsp?Sid=" + Sid);
 		    	break;
 		    	
 		    case 2://月销售总表
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	request.getSession().setAttribute("Acc_Sale_Month_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Sale_Month.jsp?Sid=" + Sid);
@@ -248,11 +249,10 @@ public class AccSaleBean extends RmiBean
 			  	  	 " order by t.cpm_id ";
 			   break;
 			case 2://月销售总表
-			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.ctime, t.unit_price, t.value, t.salary, t.des " +
-					 " from view_Acc_Sale_month t " +
-					 " where date_format(t.ctime, '%Y-%m') = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m')" +
-			  	  	 " order by t.cpm_id ";
-			   break;
+				   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.ctime, t.unit_price, sum(t.value) value, sum(t.salary) salary, t.des " +
+						 " from (SELECT * FROM view_acc_sale_day WHERE (DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m'))  ORDER BY ctime DESC) t " + 
+						 " GROUP BY CPM_ID ";
+				   break;
 		}
 		return Sql;
 	}

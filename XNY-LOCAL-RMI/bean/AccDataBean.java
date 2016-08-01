@@ -73,22 +73,23 @@ public class AccDataBean extends RmiBean
 		currStatus = (CurrStatus)request.getSession().getAttribute("CurrStatus_" + Sid);
 		currStatus.getHtmlData(request, pFromZone);
 		
-		msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		switch(currStatus.getCmd())
 		{
 		    case 0://各站点：累积流量
-		    	currStatus.setTotalRecord(msgBean.getCount());
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, 0);
 		    	request.getSession().setAttribute("Acc_Data_Sta_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Data_Sta.jsp?Sid=" + Sid);	
 		    	break;
 		    	
 		    case 1://日用量总表
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	request.getSession().setAttribute("Acc_Data_Day_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Data_Day.jsp?Sid=" + Sid);
 		    	break;
 		    	
 		    case 2://月用量总表
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	request.getSession().setAttribute("Acc_Data_Month_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Data_Month.jsp?Sid=" + Sid);
@@ -276,11 +277,10 @@ public class AccDataBean extends RmiBean
 			  	  	 " order by t.cpm_id ";
 			   break;
 			case 2://月用量总表
-			   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, t.b_value, t.e_value, t.value, t.unit,  t.des " +
-					 " from view_acc_data_month t " +
-					 " where date_format(t.ctime, '%Y-%m') = date_format('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m')" +
-			  	  	 " order by t.cpm_id ";
-			   break;
+				   Sql = " select t.sn, t.cpm_id, t.cpm_name, t.id, t.cname, t.attr_id, t.attr_name, t.ctime, (t.e_value - sum(t.value)) as b_value , t.e_value, sum(t.value) value , t.unit,  t.des " +
+						 " from (SELECT * FROM view_acc_data_day WHERE (DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT('"+currStatus.getVecDate().get(0).toString()+"', '%Y-%m'))  ORDER BY ctime DESC) t " + 
+						 " GROUP BY CPM_ID ";
+				   break;
 			
 			case 20://数据图表
 			   Sql = " {? = call rmi_graph('"+ Id +"', '"+ currStatus.getFunc_Sub_Id() +"', '"+ currStatus.getVecDate().get(0).toString().substring(0,10) +"')}";
