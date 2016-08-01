@@ -105,22 +105,22 @@ public class DeviceDetailBean extends RmiBean
 		switch (pCmd)
 		{  
 		    case 0://²éÑ¯
-		    	Sql = " select t.id, t.cname, t.brief, t.status, t.onoff, t.ctype, t.ctime, t.memo, t.link_url, t.link_port, t.link_id, t.link_pwd, t.pwd, t.sign, t.longitude, t.latitude " +
+		    	Sql = " select t.id, t.cname, t.brief, t.status, t.onoff, t.ctype, t.ctime, t.memo, t.link_url, t.link_port, t.link_id, t.link_pwd, t.pwd, t.sign, t.longitude, t.latitude, t.unit_price " +
 	    	 	   	  " from device_detail t " +
  	 		          " order by t.id ";
 			   break;
 		    case 1://ÊÓÆµ¼à¿Ø
-		    	Sql = " select t.id, t.cname, t.brief, t.status, t.onoff, t.ctype, t.ctime, t.memo, t.link_url, t.link_port, t.link_id, t.link_pwd, t.pwd, t.sign, t.longitude, t.latitude " +
+		    	Sql = " select t.id, t.cname, t.brief, t.status, t.onoff, t.ctype, t.ctime, t.memo, t.link_url, t.link_port, t.link_id, t.link_pwd, t.pwd, t.sign, t.longitude, t.latitude, t.unit_price" +
   	 	   	  		  " from device_detail t " +
   	 	   	  		  " order by t.id ";
 		    	break;
 		    case 10://Ìí¼Ó
-		    	Sql = " insert into device_detail(id, cname, brief, status, ctype, ctime, memo, link_url, link_port, link_id, link_pwd, pwd)" +
-		    			"values('"+ Id +"', '"+ CName +"', '"+ Brief +"', '"+ Status +"', '"+ CType +"', '"+ CTime +"', '"+ Memo +"', '"+ Link_Url +"', '"+ Link_Port +"', '"+ Link_Id +"', '"+ Link_Pwd +"', '"+ Pwd +"')";
+		    	Sql = " insert into device_detail(id, cname, brief, status, ctype, ctime, memo, link_url, link_port, link_id, link_pwd, pwd ,unit_price)" +
+		    			"values('"+ Id +"', '"+ CName +"', '"+ Brief +"', '"+ Status +"', '"+ CType +"', '"+ CTime +"', '"+ Memo +"', '"+ Link_Url +"', '"+ Link_Port +"', '"+ Link_Id +"', '"+ Link_Pwd +"', '"+ Pwd +"', '"+ Unit_Price +"')";
 		    	break;	   
 		    case 11://ÐÞ¸Ä
 		    	Sql = " update device_detail t set t.cname = '"+ CName +"', t.brief = '"+ Brief +"', t.status = '"+ Status+"', t.ctype = '"+ CType +"', t.ctime = '"+ CTime +"', " +
-		    		  " t.memo = '"+ Memo +"', t.link_url = '"+ Link_Url +"', t.link_port = '"+ Link_Port +"', t.link_id = '"+ Link_Id +"', t.link_pwd = '"+ Link_Pwd +"', t.pwd = '"+ Pwd +"' " +
+		    		  " t.memo = '"+ Memo +"', t.link_url = '"+ Link_Url +"', t.link_port = '"+ Link_Port +"', t.link_id = '"+ Link_Id +"', t.link_pwd = '"+ Link_Pwd +"', t.pwd = '"+ Pwd +"' , t.unit_price = '"+ Unit_Price +"' " +
 		    		  " where t.id = '"+ Id +"'";
 		    	break;
 		    case 12://É¾³ý
@@ -175,6 +175,7 @@ public class DeviceDetailBean extends RmiBean
 			setSign(pRs.getString(14));
 			setLongitude(pRs.getString(15));
 			setLatitude(pRs.getString(16));
+			setUnit_Price(pRs.getString(17));
 		}
 		catch (SQLException sqlExp)
 		{
@@ -204,6 +205,7 @@ public class DeviceDetailBean extends RmiBean
 			setSign(CommUtil.StrToGB2312(request.getParameter("Sign")));
 			setLongitude(CommUtil.StrToGB2312(request.getParameter("Longitude")));
 			setLatitude(CommUtil.StrToGB2312(request.getParameter("Latitude")));
+			setUnit_Price(CommUtil.StrToGB2312(request.getParameter("Unit_Price")));
 			setSid(CommUtil.StrToGB2312(request.getParameter("Sid")));
 		}
 		catch (Exception Exp)
@@ -229,8 +231,22 @@ public class DeviceDetailBean extends RmiBean
 	private String Sign;
 	private String Longitude;
 	private String Latitude;
+	private String Unit_Price;
+	
 	private String Sid;
 	
+	
+	
+	public String getUnit_Price()
+	{
+		return Unit_Price;
+	}
+
+	public void setUnit_Price(String unit_Price)
+	{
+		Unit_Price = unit_Price;
+	}
+
 	public String getId() {
 		return Id;
 	}

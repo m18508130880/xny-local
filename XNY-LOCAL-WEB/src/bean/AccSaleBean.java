@@ -45,22 +45,23 @@ public class AccSaleBean extends RmiBean
 		currStatus = (CurrStatus)request.getSession().getAttribute("CurrStatus_" + Sid);
 		currStatus.getHtmlData(request, pFromZone);
 		
-		msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		switch(currStatus.getCmd())
 		{
 		    case 0://各站点：销售列表
-		    	currStatus.setTotalRecord(msgBean.getCount());
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, 0);
 		    	request.getSession().setAttribute("Acc_Sale_Sta_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Sale_Sta.jsp?Sid=" + Sid);	
 		    	break;
 		    	
 		    case 1://日销售总表
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	request.getSession().setAttribute("Acc_Sale_Day_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Sale_Day.jsp?Sid=" + Sid);
 		    	break;
 		    	
 		    case 2://月销售总表
+		    	msgBean = pRmi.RmiExec(currStatus.getCmd(), this, currStatus.getCurrPage());
 		    	currStatus.setTotalRecord(msgBean.getCount());
 		    	request.getSession().setAttribute("Acc_Sale_Month_" + Sid, ((Object)msgBean.getMsg()));
 		    	currStatus.setJsp("Acc_Sale_Month.jsp?Sid=" + Sid);
