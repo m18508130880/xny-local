@@ -341,6 +341,7 @@ public class TcpSvrAppGateWay extends TcpSvrBase
 				}
 				catch(Exception ex)
 				{
+					CommUtil.LOG(ex.toString());
 					ex.printStackTrace();
 					CommUtil.PRINT("TcpSvrAppGateWay Exception [" + dealData+"]");
 					continue;
